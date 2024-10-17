@@ -8,9 +8,9 @@
             <!-- ---------------------------------- -->
             <div class="p-4">
 
-                <a href="../" class="text-nowrap">
-                    <img src="./assets/images/logos/logo-light.svg" alt="Logo-Dark" />
-                </a>
+                <div class="flex justify-center items-center h-full">
+                    <a class="text-2xl font-bold text-sky-500 py-2" href="/">Check Stunt</a>
+                </div>
 
 
             </div>
@@ -24,35 +24,14 @@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./index.html">
+                                href="{{ route('dashboard') }}">
                                 <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
                             </a>
                         </li>
 
                         <li class="text-xs font-bold mb-4 mt-6">
                             <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                            <span class="text-xs text-gray-400 font-semibold">UI COMPONENTS</span>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./components/buttons.html">
-                                <i class="ti ti-article ps-2 text-2xl"></i> <span>Buttons</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./components/alerts.html">
-                                <i class="ti ti-alert-circle ps-2 text-2xl"></i> <span>Alerts</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./components/cards.html">
-                                <i class="ti ti-cards ps-2 text-2xl"></i> <span>Card</span>
-                            </a>
+                            <span class="text-xs text-gray-400 font-semibold">DATA STUNTING</span>
                         </li>
 
                         <li class="sidebar-item">
@@ -64,56 +43,42 @@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./components/typography.html">
-                                <i class="ti ti-typography ps-2 text-2xl"></i> <span>Typography</span>
+                                href="{{ route('article.index') }}">
+                                <i class="ti ti-file-description ps-2 text-2xl"></i> <span>Article</span>
                             </a>
                         </li>
 
-                        <li class="text-xs font-bold mb-4 mt-8">
-                            <i class="ti ti-dots nav-small-cap-icon  text-lg hidden text-center"></i>
-                            <span class="text-xs text-gray-400 font-semibold">AUTH</span>
-                        </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./pages/authentication-login.html">
-                                <i class="ti ti-login ps-2 text-2xl"></i> <span>Login</span>
-                            </a>
-                        </li>
+                        @role('superadmin')
+                            <li class="text-xs font-bold mb-4 mt-8">
+                                <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
+                                <span class="text-xs text-gray-400 font-semibold">PERMISSION</span>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./pages/authentication-register.html">
-                                <i class="ti ti-user-plus ps-2 text-2xl"></i> <span>Register</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                    href="{{ route('admin.user.index') }}">
+                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>User</span>
+                                </a>
+                            </li>
 
-                        <li class="text-xs font-bold mb-4 mt-8">
-                            <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                            <span class="text-xs text-gray-400 font-semibold">EXTRA</span>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                    href="{{ route('admin.permission.index') }}">
+                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>Permission</span>
+                                </a>
+                            </li>
 
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./pages/icons.html">
-                                <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>Icons</span>
-                            </a>
-                        </li>
-
-                        <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./pages/sample-page.html">
-                                <i class="ti ti-aperture ps-2 text-2xl"></i> <span>Sample Page</span>
-                            </a>
-                        </li>
+                            <li class="sidebar-item">
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                    href="{{ route('admin.role.index') }}">
+                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>Role</span>
+                                </a>
+                            </li>
+                        @endrole
 
                     </ul>
                 </nav>
-            </div>
-
-            <!-- Bottom Upgrade Option -->
-            <div class="m-4  relative grid">
-                <button class="text-base font-semibold hover:bg-blue-700 btn">Upgrade to Pro</button>
             </div>
             <!-- </aside> -->
         </aside>
@@ -204,13 +169,11 @@
                                 </li>
                             </ul>
                             <div class="flex items-center gap-4">
-                                <a href="#" class="btn text-base font-medium hover:bg-blue-700"
-                                    aria-current="page">Upgrade to Pro</a>
                                 <div
                                     class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
                                     <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                                         <img class="object-cover w-9 h-9 rounded-full"
-                                            src="./assets/images/profile/user-1.jpg" alt=""
+                                            src="{{ asset('assets/images/profile/user-1.jpg') }}" alt=""
                                             aria-hidden="true">
                                     </a>
                                     <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
@@ -232,9 +195,18 @@
                                                 <p class="text-sm ">My Task</p>
                                             </a>
                                             <div class="px-4 mt-[7px] grid">
-                                                <a href="../../pages/authentication-login.html"
-                                                    class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>
+                                                <form method="POST" action="{{ route('logout') }}" id="logout-form"
+                                                    style="display: none;">
+                                                    @csrf
+                                                </form>
+
+                                                <a href="#"
+                                                    class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white"
+                                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                                    Logout
+                                                </a>
                                             </div>
+
 
                                         </div>
                                     </div>

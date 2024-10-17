@@ -1,47 +1,80 @@
-<x-guest-layout>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+@extends('auth.main')
 
-    <form method="POST" action="{{ route('login') }}">
-        @csrf
+@section('title')
+    Login
+@endsection
 
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+@section('content')
+    <!-- Main Content -->
+    <div
+        class="flex flex-col w-full overflow-hidden relative min-h-screen radial-gradient items-center justify-center g-0 px-4">
+        <div class="justify-center items-center w-full card lg:flex max-w-md ">
+            <div class="w-full card-body">
+                <div class="flex justify-center items-center h-full">
+                    <a class="text-2xl font-bold text-sky-500 py-4" href="/">Check Stunt</a>
+                </div>
+
+                <p class="mb-4 text-gray-400 text-sm text-center">Mulai perjalanan Anda untuk memastikan masa depan sehat
+                    bagi anak-anak.</p>
+
+                <!-- Session Status -->
+                @if (session('status'))
+                    <div class="mb-4 text-green-600 text-center">
+                        {{ session('status') }}
+                    </div>
+                @endif
+
+                <!-- form -->
+                <form method="POST" action="{{ route('login') }}">
+                    @csrf
+                    <!-- email -->
+                    <div class="mb-4">
+                        <label for="email" class="block text-sm mb-2 text-gray-400">Email</label>
+                        <input type="email" id="email" name="email"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+                            value="{{ old('email') }}" required autofocus />
+                        @if ($errors->has('email'))
+                            <p class="mt-2 text-sm text-red-600">{{ $errors->first('email') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- password -->
+                    <div class="mb-6">
+                        <label for="password" class="block text-sm mb-2 text-gray-400">Password</label>
+                        <input type="password" id="password" name="password"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+                            required />
+                        @if ($errors->has('password'))
+                            <p class="mt-2 text-sm text-red-600">{{ $errors->first('password') }}</p>
+                        @endif
+                    </div>
+
+                    <!-- remember me -->
+                    <div class="flex justify-between">
+                        <div class="flex">
+                            <input type="checkbox"
+                                class="shrink-0 mt-0.5 border-gray-200 rounded-[4px] text-blue-600 focus:ring-blue-500"
+                                id="remember_me" name="remember">
+                            <label for="remember_me" class="text-sm text-gray-500 ms-3">Remember this Device</label>
+                        </div>
+                        <a href="{{ route('password.request') }}"
+                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">Forgot Password?</a>
+                    </div>
+
+                    <!-- button -->
+                    <div class="grid my-6">
+                        <button type="submit"
+                            class="btn py-[10px] text-base text-white font-medium bg-blue-600 hover:bg-blue-700">Sign
+                            In</button>
+                    </div>
+
+                    <div class="flex justify-center gap-2 items-center">
+                        <p class="text-base font-semibold text-gray-400">Don't have an account</p>
+                        <a href="{{ route('register') }}"
+                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">Create an account</a>
+                    </div>
+                </form>
+            </div>
         </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="current-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember_me" class="inline-flex items-center">
-                <input id="remember_me" type="checkbox" class="rounded dark:bg-gray-900 border-gray-300 dark:border-gray-700 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600 dark:focus:ring-offset-gray-800" name="remember">
-                <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
-            </label>
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('password.request') }}">
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+    </div>
+@endsection
