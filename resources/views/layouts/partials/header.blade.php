@@ -1,15 +1,13 @@
 <main>
-    <!--start the project-->
+
     <div id="main-wrapper" class=" flex p-5 xl:pr-0">
         <aside id="application-sidebar-brand"
             class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full  transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed xl:top-5 xl:left-auto top-0 left-0 with-vertical h-screen z-[999] shrink-0  w-[270px] shadow-md xl:rounded-md rounded-none bg-white left-sidebar   transition-all duration-300">
-            <!-- ---------------------------------- -->
-            <!-- Start Vertical Layout Sidebar -->
-            <!-- ---------------------------------- -->
+
             <div class="p-4">
 
                 <div class="flex justify-center items-center h-full">
-                    <a class="text-2xl font-bold text-sky-500 py-2" href="/">Check Stunt</a>
+                    <h1 class="text-2xl font-bold py-2"><span class="text-green-700">Stunting</span> Check</h1>
                 </div>
 
 
@@ -23,7 +21,7 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-gray-500  w-full"
+                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base  flex items-center relative  rounded-md text-green-700  w-full"
                                 href="{{ route('dashboard') }}">
                                 <i class="ti ti-layout-dashboard ps-2  text-2xl"></i> <span>Dashboard</span>
                             </a>
@@ -35,18 +33,19 @@
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
-                                href="./components/forms.html">
-                                <i class="ti ti-file-description ps-2 text-2xl"></i> <span>Forms</span>
+                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
+                                href="{{ route('admin.status.index') }}">
+                                <i class="ti ti-activity ps-2 text-2xl"></i> <span>Status</span>
                             </a>
                         </li>
 
                         <li class="sidebar-item">
-                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                 href="{{ route('article.index') }}">
                                 <i class="ti ti-file-description ps-2 text-2xl"></i> <span>Article</span>
                             </a>
                         </li>
+
 
 
                         @role('superadmin')
@@ -56,23 +55,23 @@
                             </li>
 
                             <li class="sidebar-item">
-                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                     href="{{ route('admin.user.index') }}">
-                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>User</span>
+                                    <i class="ti ti-user-plus ps-2 text-2xl"></i> <span>User</span>
                                 </a>
                             </li>
 
                             <li class="sidebar-item">
-                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                     href="{{ route('admin.permission.index') }}">
-                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>Permission</span>
+                                    <i class="ti ti-lock-plus ps-2 text-2xl"></i> <span>Permission</span>
                                 </a>
                             </li>
 
                             <li class="sidebar-item">
-                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-gray-500  w-full"
+                                <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                     href="{{ route('admin.role.index') }}">
-                                    <i class="ti ti-mood-happy ps-2 text-2xl"></i> <span>Role</span>
+                                    <i class="ti ti-user-check ps-2 text-2xl"></i> <span>Role</span>
                                 </a>
                             </li>
                         @endrole
@@ -179,21 +178,12 @@
                                     <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[200px] hidden z-[12]"
                                         aria-labelledby="hs-dropdown-custom-icon-trigger">
                                         <div class="card-body p-0 py-2">
-                                            <a href="javscript:void(0)"
+                                            <a href="{{ route('profile.edit') }}"
                                                 class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                                <i class="ti ti-user  text-xl "></i>
-                                                <p class="text-sm ">My Profile</p>
+                                                <i class="ti ti-user text-xl"></i>
+                                                <p class="text-sm">My Profile</p>
                                             </a>
-                                            <a href="javscript:void(0)"
-                                                class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                                <i class="ti ti-mail  text-xl"></i>
-                                                <p class="text-sm ">My Account</p>
-                                            </a>
-                                            <a href="javscript:void(0)"
-                                                class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
-                                                <i class="ti ti-list-check  text-xl "></i>
-                                                <p class="text-sm ">My Task</p>
-                                            </a>
+
                                             <div class="px-4 mt-[7px] grid">
                                                 <form method="POST" action="{{ route('logout') }}" id="logout-form"
                                                     style="display: none;">
@@ -216,6 +206,6 @@
                             </div>
                         </nav>
 
-                        <!-- ========== END HEADER ========== -->
+
                     </header>
                     <!--  Header End -->

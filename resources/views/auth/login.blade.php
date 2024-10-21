@@ -11,7 +11,7 @@
         <div class="justify-center items-center w-full card lg:flex max-w-md ">
             <div class="w-full card-body">
                 <div class="flex justify-center items-center h-full">
-                    <a class="text-2xl font-bold text-sky-500 py-4" href="/">Check Stunt</a>
+                    <h1 class="text-xl font-bold"><span class="text-green-700">Stunting</span> Check</h1>
                 </div>
 
                 <p class="mb-4 text-gray-400 text-sm text-center">Mulai perjalanan Anda untuk memastikan masa depan sehat
@@ -31,7 +31,7 @@
                     <div class="mb-4">
                         <label for="email" class="block text-sm mb-2 text-gray-400">Email</label>
                         <input type="email" id="email" name="email"
-                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-green-700 focus:ring-0"
                             value="{{ old('email') }}" required autofocus />
                         @if ($errors->has('email'))
                             <p class="mt-2 text-sm text-red-600">{{ $errors->first('email') }}</p>
@@ -42,7 +42,7 @@
                     <div class="mb-6">
                         <label for="password" class="block text-sm mb-2 text-gray-400">Password</label>
                         <input type="password" id="password" name="password"
-                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+                            class="py-3 px-4 block w-full border-gray-200 rounded-sm text-sm focus:border-green-700 focus:ring-0"
                             required />
                         @if ($errors->has('password'))
                             <p class="mt-2 text-sm text-red-600">{{ $errors->first('password') }}</p>
@@ -57,21 +57,18 @@
                                 id="remember_me" name="remember">
                             <label for="remember_me" class="text-sm text-gray-500 ms-3">Remember this Device</label>
                         </div>
-                        <a href="{{ route('password.request') }}"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">Forgot Password?</a>
+                        <a class="underline text-sm text-gray-600 hover:text-gray-900"
+                            href="{{ route('password.request') }}">
+                            {{ __('Forgot your password?') }}
+                        </a>
+
                     </div>
 
                     <!-- button -->
                     <div class="grid my-6">
                         <button type="submit"
-                            class="btn py-[10px] text-base text-white font-medium bg-blue-600 hover:bg-blue-700">Sign
+                            class="btn py-[10px] text-base text-white font-medium bg-green-700 hover:bg-green-700">Sign
                             In</button>
-                    </div>
-
-                    <div class="flex justify-center gap-2 items-center">
-                        <p class="text-base font-semibold text-gray-400">Don't have an account</p>
-                        <a href="{{ route('register') }}"
-                            class="text-sm font-semibold text-blue-600 hover:text-blue-700">Create an account</a>
                     </div>
                 </form>
             </div>

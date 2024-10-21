@@ -9,11 +9,14 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 use Laravolt\Indonesia\Models\City;
+use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\LandingController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
 
-Route::get('/', function () {
-    return view('users.index');
-});
 
+Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/artikel', [LandingController::class, 'indexArtikel'])->name('artikel');
+Route::get('/artikel/{id}', [LandingController::class, 'show'])->name('artikel.show');
 Route::get('/kalkulator', [KalkulatorController::class, 'create'])->name('kalkulator.create');
 Route::post('/kalkulator', [KalkulatorController::class, 'store'])->name('kalkulator.store');
 
@@ -22,11 +25,11 @@ Route::name('admin.')->prefix('admin')->namespace('App\Http\Controllers\Admin')-
     Route::resource('user', 'UserController');
     Route::resource('permission', 'PermissionController');
     Route::resource('role', 'RoleController');
+    Route::resource('status', 'StatusController');
 });
 
 
-Route::resource('/article', ArticleController::class);
-Route::get('/article', [ArticleController::class, 'index'])->name('article.index');
+Route::resource('article', ArticleController::class)->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {
@@ -43,5 +46,6 @@ Route::get('/api/province/{id}/cities', function ($id) {
     $cities = City::where('province_id', $id)->pluck('name', 'id');
     return response()->json($cities);
 });
+
 
 require __DIR__ . '/auth.php';

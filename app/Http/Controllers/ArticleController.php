@@ -20,13 +20,7 @@ class ArticleController extends Controller
     public function index()
     {
         $articles = Article::paginate(10);
-
-        if (auth()->check() && auth()->user()->hasRole(['superadmin', 'admin'])) {
-            return view('article.index', compact('articles'));
-        }
-
-        $articles = Article::where('published', 1)->paginate(10);
-        return view('users.article', compact('articles'));
+        return view('article.index', compact('articles'));
     }
     /**
      * Show the form for creating a new resource.
@@ -48,8 +42,17 @@ class ArticleController extends Controller
         $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'body' => ['required', 'string',],
+            'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ]);
-        request()->user()->articles()->create($request->all());
+        $articleData = $request->all();
+
+
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('article', 'public');
+            $articleData['image'] = $imagePath;
+        }
+
+        request()->user()->articles()->create($articleData);
         return redirect()->route('article.index')->with($this->alertCreated());
     }
     /**
@@ -74,8 +77,9 @@ class ArticleController extends Controller
             $article = Article::findOrFail($id);
 
             if (
-                request()->user()->hasRole(['superadmin', 'admin']) ||
-                request()->user()->isAbleTo('articles-update', $article)
+                request()->user()->hasRole('superadmin') ||
+                request()->user()->isAbleTo('articles-update', $article) ||
+                $article->user_id === request()->user()->id
             ) {
                 return view('article.edit', compact('article'));
             } else {
@@ -98,14 +102,32 @@ class ArticleController extends Controller
             $article = Article::findOrFail($id);
 
             if (
-                request()->user()->hasRole(['superadmin', 'admin']) ||
-                request()->user()->isAbleTo('articles-updates', $article)
+                request()->user()->hasRole(['superadmin']) ||
+                request()->user()->isAbleTo('articles-update', $article) ||
+                $article->user_id === request()->user()->id
             ) {
                 $request->validate([
                     'title' => ['required', 'string', 'max:255'],
-                    'body' => ['required', 'string',],
+                    'body' => ['required', 'string'],
+                    'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], // Validasi untuk gambar
                 ]);
-                $article->update($request->all());
+
+                // Data artikel yang akan diperbarui
+                $articleData = $request->only(['title', 'body', 'published']);
+
+                // Jika ada gambar yang diunggah, simpan gambar dan ambil path-nya
+                if ($request->hasFile('image')) {
+                    // Hapus gambar lama jika ada
+                    if ($article->image) {
+                        Storage::disk('public')->delete($article->image);
+                    }
+
+                    // Simpan gambar baru
+                    $imagePath = $request->file('image')->store('article', 'public'); // Simpan gambar ke storage/app/public/article
+                    $articleData['image'] = $imagePath; // Menyimpan path gambar ke dalam data artikel
+                }
+
+                $article->update($articleData); // Update artikel dengan data yang diperbarui
                 return redirect()->route('article.index')->with($this->alertUpdated());
             } else {
                 return redirect()->route('article.index')->with($this->permissionDenied());
@@ -114,6 +136,7 @@ class ArticleController extends Controller
             return redirect()->route('article.index')->with($this->alertNotFound());
         }
     }
+
     /**
      * Remove the specified resource from storage.
      *

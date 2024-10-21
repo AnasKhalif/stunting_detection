@@ -11,7 +11,7 @@
                 <div class="card">
                     <div class="card-header text-lg font-semibold text-gray-500 ml-5 mt-4">{{ __('Article') }}</div>
                     <div class="card-body flex flex-col gap-6">
-                        <form method="POST" action="{{ route('article.store') }}">
+                        <form method="POST" action="{{ route('article.store') }}" enctype="multipart/form-data">
                             @csrf
 
                             <div class="mb-6">
@@ -29,9 +29,21 @@
 
                             <div class="mb-6">
                                 <label for="body" class="block text-sm mb-2 text-gray-400">{{ __('Body') }}</label>
-                                <textarea name="body" id="body" cols="30" rows="3" required autocomplete="body"
+                                <textarea name="body" id="body" cols="50" rows="10" required autocomplete="body"
                                     class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 @error('body') is-invalid @enderror">{{ old('body') }}</textarea>
                                 @error('body')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="image" class="block text-sm mb-2 text-gray-400">{{ __('Image') }}</label>
+                                <input id="image" type="file"
+                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 @error('image') is-invalid @enderror"
+                                    name="image" accept="image/*"> <!-- Input untuk upload gambar -->
+                                @error('image')
                                     <span class="invalid-feedback" role="alert">
                                         <strong>{{ $message }}</strong>
                                     </span>

@@ -12,8 +12,10 @@
                     <div class="card-header text-lg font-semibold text-gray-500 ml-5 mt-4">{{ __('Edit Article') }}</div>
 
                     <div class="card-body flex flex-col gap-6">
-                        <form method="POST" action="{{ route('article.update', $article->id) }}">
-                            @csrf @method('PUT')
+                        <form method="POST" action="{{ route('article.update', $article->id) }}"
+                            enctype="multipart/form-data">
+                            @csrf
+                            @method('PUT')
 
                             <div class="mb-6">
                                 <label for="title" class="block text-sm mb-2 text-gray-400">{{ __('Title') }}</label>
@@ -55,6 +57,28 @@
                                         <strong>{{ $message }}</strong>
                                     </span>
                                 @enderror
+                            </div>
+
+                            <div class="mb-6">
+                                <label for="image" class="block text-sm mb-2 text-gray-400">{{ __('Image') }}</label>
+                                <input id="image" type="file"
+                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 @error('image') is-invalid @enderror"
+                                    name="image" accept="image/*">
+
+                                @error('image')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+
+                                <!-- Menampilkan gambar yang ada saat ini -->
+                                @if ($article->image)
+                                    <div class="mt-2">
+                                        <img src="{{ asset('storage/' . $article->image) }}" alt="Current Image"
+                                            class="w-full max-w-md rounded-2xl shadow-lg">
+                                        <p class="text-sm text-gray-500 mt-1">Current Image</p>
+                                    </div>
+                                @endif
                             </div>
 
                             <div class="flex justify-end">

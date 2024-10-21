@@ -50,6 +50,22 @@
                     </div>
 
                     <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Berat Badan Saat lahir</label>
+                        <input type="number" name="birth_weight"
+                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
+                            placeholder="Cm" />
+                    </div>
+
+
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Panjang Badan Saat lahir</label>
+                        <input type="number" name="birth_length"
+                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
+                            placeholder="Cm" />
+                    </div>
+
+
+                    <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 lg:text-lg">Berat Badan Anak</label>
                         <input type="number" name="weight"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
@@ -59,13 +75,6 @@
                     <div class="mb-6">
                         <label class="block text-sm font-medium text-gray-700 lg:text-lg">Tinggi Badan Anak</label>
                         <input type="number" name="height"
-                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
-                            placeholder="Cm" />
-                    </div>
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Panjang Badan Saat lahir</label>
-                        <input type="number" name="birth_length"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
                             placeholder="Cm" />
                     </div>
