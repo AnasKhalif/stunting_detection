@@ -16,7 +16,14 @@
 
                     <div class="card-body">
                         @if (session('message'))
-                            <x-alert :type="session('type')" :message="session('message')" />
+                            <script>
+                                Swal.fire({
+                                    icon: "{{ session('type') }}",
+                                    title: "{{ session('message') }}",
+                                    showConfirmButton: false,
+                                    timer: 3000
+                                });
+                            </script>
                         @endif
 
                         <table class="min-w-full bg-white border text-center">
@@ -39,14 +46,17 @@
                                             {{ $article->published ? 'Published' : 'Unpublished' }}</td>
                                         <td class="py-2 px-4 border-b">
                                             <div class="flex justify-center space-x-2">
-                                                <form action="{{ route('article.destroy', $article->id) }}" method="post"
+                                                <a href="{{ route('article.edit', $article->id) }}"
+                                                    class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-full">Edit</a>
+                                                <form id="delete-form-{{ $article->id }}"
+                                                    action="{{ route('article.destroy', $article->id) }}" method="post"
                                                     class="inline">
-                                                    @method('DELETE') @csrf
-                                                    <a href="{{ route('article.edit', $article->id) }}"
-                                                        class="bg-blue-500 text-white hover:bg-blue-600 px-4 py-2 rounded-full">Edit</a>
-                                                    <button type="submit"
+                                                    @method('DELETE')
+                                                    @csrf
+                                                    <button type="button" onclick="confirmDelete({{ $article->id }})"
                                                         class="bg-red-500 text-white hover:bg-red-600 px-3 py-1 rounded-full">Delete</button>
                                                 </form>
+
                                             </div>
                                         </td>
                                     </tr>
@@ -60,4 +70,22 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function confirmDelete(id) {
+            Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('delete-form-' + id).submit();
+                }
+            });
+        }
+    </script>
 @endsection

@@ -56,7 +56,7 @@ class RoleController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        $role->attachPermissions($request->input('permissions_id'));
+        $role->givePermissions($request->input('permissions_id'));
 
         return redirect()->route('admin.role.index')->with($this->alertCreated());
     }
@@ -133,7 +133,7 @@ class RoleController extends Controller
     {
         try {
             $role = Role::findOrFail($id);
-            $role->detachPermissions($role->permissions()->get()->pluck('id')->toArray());
+            $role->removePermissions($role->permissions()->get()->pluck('id')->toArray());
             $role->forceDelete();
 
             return redirect()->route('admin.role.index')->with($this->alertDeleted());
