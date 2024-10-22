@@ -47,19 +47,26 @@
 
                     <!-- Account -->
                     <div class="p-6">
-                        <div class="flex items-start gap-6">
-                            <img src="{{ asset('./img/artikel.jpeg') }}" alt="user-avatar"
-                                class="block rounded-full h-24 w-24" id="uploadedAvatar">
+                        <form method="post" action="{{ route('profile.uploadPhoto') }}" enctype="multipart/form-data"
+                            class="flex items-start gap-6">
+                            @csrf
+
+                            <img src="{{ $user->profile_photo_path ? asset('storage/' . $user->profile_photo_path) : asset('./img/default-avatar.jpeg') }}"
+                                alt="user-avatar" class="block rounded-full h-24 w-24" id="uploadedAvatar">
+
                             <div class="flex flex-col gap-3">
                                 <label for="upload" class="bg-blue-500 text-white px-4 py-2 rounded-md cursor-pointer">
                                     Upload new photo
-                                    <input type="file" id="upload" class="hidden" accept="image/png, image/jpeg">
+                                    <input type="file" name="image" id="upload" class="hidden"
+                                        accept="image/png, image/jpeg" required>
                                 </label>
+                                <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md">Save</button>
                                 <button type="button" class="bg-gray-100 text-gray-500 px-4 py-2 rounded-md">Reset</button>
                                 <p class="text-gray-500 text-sm">Allowed JPG, JPEG, or PNG</p>
                             </div>
-                        </div>
+                        </form>
                     </div>
+
 
                     <hr class="border-gray-200">
 

@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use Illuminate\Support\Facades\Storage;
+
 
 class ProfileController extends Controller
 {
@@ -35,6 +37,27 @@ class ProfileController extends Controller
         $request->user()->save();
 
         return Redirect::route('profile.edit')->with('status', 'profile-updated');
+    }
+
+    public function uploadPhoto(Request $request)
+    {
+        $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $user = auth()->user();
+
+        // Hapus foto lama jika ada
+        if ($user->profile_photo_path) {
+            Storage::disk('public')->delete($user->profile_photo_path); // Pastikan menggunakan disk yang benar
+        }
+
+        // Simpan foto baru
+        $path = $request->file('image')->store('profile_photos', 'public');
+        $user->profile_photo_path = $path;
+        $user->save();
+
+        return redirect()->route('profile.edit')->with('status', 'Profile photo updated successfully.');
     }
 
     /**

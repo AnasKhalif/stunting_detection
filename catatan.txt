@@ -13,7 +13,7 @@ jika delete sesuatu ada konfirmasi
 isi artikel
 logo
 button back setiap halaman
-foto profile
+foto profile (done)
 responsive dashboard
 
 ## penginstallan project ##

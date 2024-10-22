@@ -19,6 +19,7 @@
 
     @include('layouts.partials.footer')
     @include('layouts.partials.script')
+
 </body>
 
 </html>
