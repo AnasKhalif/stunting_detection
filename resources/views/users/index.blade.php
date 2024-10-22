@@ -22,7 +22,7 @@
             </p>
             <h2 class="font-semibold text-sm text-neutral-700">Selamatkan Generasi Mendatang – Langkah Kecil, Dampak
                 Besar!</h2>
-            <a href="kalkulator"
+            <a href="{{ route('kalkulator.create') }}"
                 class="flex mx-auto lg:mx-0 items-center justify-between gap-2 font-semibold py-3 mt-2 px-6 rounded-full bg-green-700 hover:bg-green-800 text-white w-fit text-sm">
                 Cek Stunting
                 <img src="{{ asset('./icon/arrow.svg') }}" class="mr-0" alt="calculator" />
@@ -143,81 +143,25 @@
 
     <section class="w-full bg-white py-20">
         <div class="mx-auto flex flex-col items-center gap-6 w-full px-4 lg:px-10">
-            <h2 class="text-2xl font-bold text-center"><span class="text-green-700">FAQ</span> - Frequently Asked
-                Questions</h2>
+            <h2 class="text-2xl font-bold text-center"><span class="text-green-700">FAQ</span> - Frequently Asked Questions
+            </h2>
             <div class="w-full space-y-2">
-                <div class="border border-gray-200 rounded-lg w-full">
-                    <button class="w-full flex justify-between items-center p-4 text-left text-gray-800 font-semibold"
-                        id="faq1-btn">
-                        Apa itu stunting?
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div id="faq1-content" class="hidden px-4 py-2 text-gray-600">
-                        Stunting adalah kondisi di mana anak memiliki tinggi badan yang jauh lebih rendah dari standar
-                        usianya akibat
-                        kurangnya asupan nutrisi dalam waktu yang lama, terutama pada 1000 hari pertama kehidupan.
+                @foreach ($faqs as $faq)
+                    <div class="border border-gray-200 rounded-lg w-full">
+                        <button class="w-full flex justify-between items-center p-4 text-left text-gray-800 font-semibold"
+                            id="faq{{ $faq->id }}-btn">
+                            {{ $faq->question }}
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                                </path>
+                            </svg>
+                        </button>
+                        <div id="faq{{ $faq->id }}-content" class="hidden px-4 py-2 text-gray-600">
+                            {{ $faq->answer }}
+                        </div>
                     </div>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg w-full">
-                    <button class="w-full flex justify-between items-center p-4 text-left text-gray-800 font-semibold"
-                        id="faq2-btn">
-                        Apa penyebab utama stunting?
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div id="faq2-content" class="hidden px-4 py-2 text-gray-600">
-                        Stunting disebabkan oleh kurangnya asupan gizi yang memadai, terutama selama masa kehamilan dan
-                        awal kehidupan anak.
-                        Faktor lain seperti pola makan yang buruk, sanitasi yang tidak memadai, dan akses terbatas ke
-                        layanan kesehatan juga
-                        berkontribusi.
-                    </div>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg w-full">
-                    <button class="w-full flex justify-between items-center p-4 text-left text-gray-800 font-semibold"
-                        id="faq3-btn">
-                        Bagaimana cara mencegah stunting?
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div id="faq3-content" class="hidden px-4 py-2 text-gray-600">
-                        Pencegahan stunting dapat dilakukan dengan memberikan asupan gizi yang cukup dan seimbang sejak
-                        masa kehamilan
-                        hingga anak berusia dua tahun. Juga penting untuk menjaga kebersihan, memastikan imunisasi, dan
-                        memberikan ASI
-                        eksklusif selama 6 bulan pertama.
-                    </div>
-                </div>
-
-                <div class="border border-gray-200 rounded-lg w-full">
-                    <button class="w-full flex justify-between items-center p-4 text-left text-gray-800 font-semibold"
-                        id="faq4-btn">
-                        Apa dampak jangka panjang dari stunting?
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                            </path>
-                        </svg>
-                    </button>
-                    <div id="faq4-content" class="hidden px-4 py-2 text-gray-600">
-                        Anak yang mengalami stunting berisiko menghadapi masalah perkembangan fisik dan kognitif,
-                        gangguan belajar, serta
-                        berisiko lebih tinggi terkena penyakit kronis seperti diabetes dan penyakit jantung di masa
-                        dewasa.
-                    </div>
-                </div>
+                @endforeach
             </div>
         </div>
     </section>

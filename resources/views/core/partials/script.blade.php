@@ -22,3 +22,10 @@
         });
     });
 </script>
+
+<script>
+    document.getElementById('menu-btn').addEventListener('click', function() {
+        const dropdownMenu = document.getElementById('dropdown-menu');
+        dropdownMenu.classList.toggle('hidden');
+    });
+</script>

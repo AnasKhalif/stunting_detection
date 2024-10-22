@@ -19,9 +19,18 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        $articles = Article::paginate(10);
+        $user = request()->user();
+
+
+        if ($user->hasRole('superadmin') || $user->isAbleTo('articles-read')) {
+            $articles = Article::paginate(10);
+        } else {
+            $articles = Article::where('user_id', $user->id)->paginate(10);
+        }
+
         return view('article.index', compact('articles'));
     }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -150,7 +159,8 @@ class ArticleController extends Controller
 
             if (
                 request()->user()->hasRole(['superadmin']) ||
-                request()->user()->isAbleTo('articles-delete', $article)
+                request()->user()->isAbleTo('articles-delete', $article) ||
+                $article->user_id === request()->user()->id
             ) {
                 $article->delete();
                 return redirect()->route('article.index')->with($this->alertDeleted());

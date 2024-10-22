@@ -1,0 +1,19 @@
+sweet alert
+hasil kalkulator untuk page user
+faq (done)
+halaman about
+humberger landing page (done)
+halaman kalkulator
+training data
+alert crud
+alert jika admin tidak ada akses status stunting di arahkan dashboard akan di beri alert permission denied
+forgot password tampilan
+halaman dashboard index
+jika delete sesuatu ada konfirmasi
+isi artikel
+logo
+button back setiap halaman
+foto profile
+responsive dashboard
+
+## penginstallan project ##

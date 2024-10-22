@@ -53,7 +53,7 @@ class PermissionController extends Controller
             'description' => $request->input('description'),
         ]);
 
-        return redirect()->route('permission.index')->with($this->alertCreated());
+        return redirect()->route('admin.permission.index')->with($this->alertCreated());
     }
 
     /**

@@ -9,9 +9,10 @@ use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\RoleController;
 use Illuminate\Support\Facades\Route;
 use Laravolt\Indonesia\Models\City;
-use App\Http\Controllers\Admin\StatusController;
+use App\Http\Controllers\StatusController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\FaqController;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -25,11 +26,11 @@ Route::name('admin.')->prefix('admin')->namespace('App\Http\Controllers\Admin')-
     Route::resource('user', 'UserController');
     Route::resource('permission', 'PermissionController');
     Route::resource('role', 'RoleController');
-    Route::resource('status', 'StatusController');
 });
 
-
+Route::resource('status', StatusController::class)->middleware('auth');
 Route::resource('article', ArticleController::class)->middleware('auth');
+Route::resource('faq', FaqController::class)->middleware('auth');
 
 
 Route::middleware('auth')->group(function () {

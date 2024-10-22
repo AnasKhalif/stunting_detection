@@ -54,4 +54,9 @@ class User extends Authenticatable implements LaratrustUser
     {
         return $this->hasMany(Article::class);
     }
+
+    public function faqs()
+    {
+        return $this->hasMany(Faq::class);
+    }
 }

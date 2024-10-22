@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Article;
+use App\Models\Faq;
 
 class LandingController extends Controller
 {
@@ -14,7 +15,12 @@ class LandingController extends Controller
             ->take(3)
             ->get();
 
-        return view('users.index', compact('articles'));
+        $faqs = Faq::where('published', 1)
+            ->orderBy('created_at', 'desc')
+            ->take(4)
+            ->get();
+
+        return view('users.index', compact('articles', 'faqs'));
     }
 
     public function indexArtikel()

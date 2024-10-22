@@ -34,7 +34,7 @@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
-                                href="{{ route('admin.status.index') }}">
+                                href="{{ route('status.index') }}">
                                 <i class="ti ti-activity ps-2 text-2xl"></i> <span>Status</span>
                             </a>
                         </li>
@@ -43,6 +43,13 @@
                             <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                 href="{{ route('article.index') }}">
                                 <i class="ti ti-file-description ps-2 text-2xl"></i> <span>Article</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
+                                href="{{ route('faq.index') }}">
+                                <i class="ti ti-zoom-question ps-2 text-2xl"></i> <span>FAQ</span>
                             </a>
                         </li>
 
