@@ -11,121 +11,11 @@
                 <div class="card-body">
                     <div class="flex  justify-between mb-5">
                         <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">weekly traffic</h4>
-                        <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
-                            <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                                <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
-                            </a>
-                            <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max  w-[150px] hidden z-[12]"
-                                aria-labelledby="hs-dropdown-custom-icon-trigger">
-                                <div class="card-body p-0 py-2">
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm ">Action</p>
-                                    </a>
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm ">Another Action</p>
-                                    </a>
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm ">Something else here</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                     <div id="profit"></div>
                 </div>
             </div>
         </div>
-
-        {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-
-        <script>
-            var stuntingData = {!! json_encode($stuntingData) !!};
-            var notStuntingData = {!! json_encode($notStuntingData) !!};
-            var dates = {!! json_encode($dates) !!};
-
-            var profit = {
-                series: [{
-                        name: "Stunting",
-                        data: stuntingData,
-                    },
-                    {
-                        name: "Tidak Stunting",
-                        data: notStuntingData,
-                    },
-                ],
-                chart: {
-                    fontFamily: "Poppins,sans-serif",
-                    type: "bar",
-                    height: 370,
-                    offsetY: 10,
-                    toolbar: {
-                        show: false,
-                    },
-                },
-                grid: {
-                    show: true,
-                    strokeDashArray: 3,
-                    borderColor: "rgba(0,0,0,.1)",
-                },
-                colors: ["#dc3545", "#28a745"], // Merah untuk Stunting dan Hijau untuk Tidak Stunting
-                plotOptions: {
-                    bar: {
-                        horizontal: false,
-                        columnWidth: "30%",
-                        endingShape: "flat",
-                    },
-                },
-                dataLabels: {
-                    enabled: false,
-                },
-                stroke: {
-                    show: true,
-                    width: 5,
-                    colors: ["transparent"],
-                },
-                xaxis: {
-                    type: "category",
-                    categories: dates,
-                    axisTicks: {
-                        show: false,
-                    },
-                    axisBorder: {
-                        show: false,
-                    },
-                    labels: {
-                        style: {
-                            colors: "#a1aab2",
-                        },
-                    },
-                },
-                yaxis: {
-                    labels: {
-                        style: {
-                            colors: "#a1aab2",
-                        },
-                    },
-                },
-                fill: {
-                    opacity: 1,
-                    colors: ["#dc3545", "#28a745"], // Merah dan Hijau
-                },
-                tooltip: {
-                    theme: "dark",
-                },
-                legend: {
-                    show: true,
-                },
-            };
-
-            var chart_column_basic = new ApexCharts(
-                document.querySelector("#profit"),
-                profit
-            );
-            chart_column_basic.render();
-        </script> --}}
 
         <div class="flex flex-col gap-6">
             <div class="card">
@@ -285,4 +175,156 @@
             </div>
         </div>
     </div>
+    <!-- Tambahkan CSS untuk ApexCharts jika belum ada -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/apexcharts/dist/apexcharts.css">
+
+    <div id="grade" style="height: 170px;"></div>
+    <div id="profit" style="height: 370px;"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+    <script>
+        $(function() {
+            // Ambil data untuk chart donut
+            var notStunting = {!! json_encode($notStuntingCount) !!} || 0;
+            var stunting = {!! json_encode($stuntingCount) !!} || 0;
+
+            console.log("Not Stunting:", notStunting);
+            console.log("Stunting:", stunting);
+
+            // Render chart grade (donut)
+            var gradeOptions = {
+                series: [notStunting, stunting],
+                labels: ["Not Stunting", "Stunting"],
+                chart: {
+                    height: 170,
+                    type: "donut",
+                    fontFamily: "'Plus Jakarta Sans', sans-serif",
+                    foreColor: "#c6d1e9",
+                },
+                tooltip: {
+                    theme: "dark",
+                    fillSeriesColor: false,
+                },
+                colors: ["#73EC8B", "#FEA1A1"],
+                dataLabels: {
+                    enabled: false,
+                },
+                legend: {
+                    show: false,
+                },
+                stroke: {
+                    show: false,
+                },
+                plotOptions: {
+                    pie: {
+                        donut: {
+                            size: "80%",
+                            background: "none",
+                            labels: {
+                                show: true,
+                                name: {
+                                    show: true,
+                                    fontSize: "12px",
+                                    color: undefined,
+                                    offsetY: 5,
+                                },
+                                value: {
+                                    show: false,
+                                    color: "#98aab4",
+                                },
+                            },
+                        },
+                    },
+                },
+            };
+
+            var donutChart = new ApexCharts(document.querySelector("#grade"), gradeOptions);
+            donutChart.render();
+
+            // Ambil data untuk chart profit (bar)
+            var stuntingData = {!! json_encode($stuntingData) !!};
+            var notStuntingData = {!! json_encode($notStuntingData) !!};
+            var dates = {!! json_encode($dates) !!};
+
+            // Render chart profit (bar)
+            var profitOptions = {
+                series: [{
+                        name: "Stunting",
+                        data: stuntingData,
+                    },
+                    {
+                        name: "Tidak Stunting",
+                        data: notStuntingData,
+                    }
+                ],
+                chart: {
+                    fontFamily: "Poppins,sans-serif",
+                    type: "bar",
+                    height: 370,
+                    offsetY: 10,
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                grid: {
+                    show: true,
+                    strokeDashArray: 3,
+                    borderColor: "rgba(0,0,0,.1)",
+                },
+                colors: ["#dc3545", "#28a745"],
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: "30%",
+                        endingShape: "flat",
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    show: true,
+                    width: 5,
+                    colors: ["transparent"],
+                },
+                xaxis: {
+                    type: "category",
+                    categories: dates,
+                    axisTicks: {
+                        show: false,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                    labels: {
+                        style: {
+                            colors: "#a1aab2",
+                        },
+                    },
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: "#a1aab2",
+                        },
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                    colors: ["#dc3545", "#28a745"],
+                },
+                tooltip: {
+                    theme: "dark",
+                },
+                legend: {
+                    show: true,
+                },
+            };
+
+            var barChart = new ApexCharts(document.querySelector("#profit"), profitOptions);
+            barChart.render();
+        });
+    </script>
 @endsection

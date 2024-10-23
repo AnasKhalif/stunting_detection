@@ -4,7 +4,7 @@ faq (done)
 alert crud (done)
 foto profile (done)
 jika delete sesuatu ada konfirmasi (done)
-halaman dashboard index
+halaman dashboard index (done)
 responsive dashboard
 forgot password tampilan
 alert jika admin tidak ada akses status stunting di arahkan dashboard akan di beri alert permission denied
