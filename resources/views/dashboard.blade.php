@@ -10,8 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex  justify-between mb-5">
-                        <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Profit &
-                            Expenses</h4>
+                        <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">weekly traffic</h4>
                         <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
                             <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                                 <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
@@ -40,33 +39,112 @@
             </div>
         </div>
 
+        {{-- <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+        <script>
+            var stuntingData = {!! json_encode($stuntingData) !!};
+            var notStuntingData = {!! json_encode($notStuntingData) !!};
+            var dates = {!! json_encode($dates) !!};
+
+            var profit = {
+                series: [{
+                        name: "Stunting",
+                        data: stuntingData,
+                    },
+                    {
+                        name: "Tidak Stunting",
+                        data: notStuntingData,
+                    },
+                ],
+                chart: {
+                    fontFamily: "Poppins,sans-serif",
+                    type: "bar",
+                    height: 370,
+                    offsetY: 10,
+                    toolbar: {
+                        show: false,
+                    },
+                },
+                grid: {
+                    show: true,
+                    strokeDashArray: 3,
+                    borderColor: "rgba(0,0,0,.1)",
+                },
+                colors: ["#dc3545", "#28a745"], // Merah untuk Stunting dan Hijau untuk Tidak Stunting
+                plotOptions: {
+                    bar: {
+                        horizontal: false,
+                        columnWidth: "30%",
+                        endingShape: "flat",
+                    },
+                },
+                dataLabels: {
+                    enabled: false,
+                },
+                stroke: {
+                    show: true,
+                    width: 5,
+                    colors: ["transparent"],
+                },
+                xaxis: {
+                    type: "category",
+                    categories: dates,
+                    axisTicks: {
+                        show: false,
+                    },
+                    axisBorder: {
+                        show: false,
+                    },
+                    labels: {
+                        style: {
+                            colors: "#a1aab2",
+                        },
+                    },
+                },
+                yaxis: {
+                    labels: {
+                        style: {
+                            colors: "#a1aab2",
+                        },
+                    },
+                },
+                fill: {
+                    opacity: 1,
+                    colors: ["#dc3545", "#28a745"], // Merah dan Hijau
+                },
+                tooltip: {
+                    theme: "dark",
+                },
+                legend: {
+                    show: true,
+                },
+            };
+
+            var chart_column_basic = new ApexCharts(
+                document.querySelector("#profit"),
+                profit
+            );
+            chart_column_basic.render();
+        </script> --}}
+
         <div class="flex flex-col gap-6">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="text-gray-500 text-lg font-semibold mb-4">Traffic Distribution</h4>
+                    <h4 class="text-gray-500 text-lg font-semibold mb-4">Traffic Stunting</h4>
                     <div class="flex items-center justify-between gap-12">
                         <div>
-                            <h3 class="text-[22px] font-semibold text-gray-500 mb-4">$36,358</h3>
-                            <div class="flex items-center gap-1 mb-3">
-                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-teal-400">
-                                    <i class="ti ti-arrow-up-left text-teal-500"></i>
-                                </span>
-                                <p class="text-gray-500 text-sm font-normal ">+9%</p>
-                                <p class="text-gray-400 text-sm font-normal text-nowrap">last year
-                                </p>
-                            </div>
-                            <div class="flex gap-4">
+                            <div class="flex">
                                 <div class="flex gap-2 items-center">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                                    <p class="text-gray-400 font-normal text-xs">Oragnic</p>
+                                    <span class="w-2 h-2 rounded-full bg-green-600"></span>
+                                    <p class="text-gray-400 font-normal text-xs">Not Stunting</p>
                                 </div>
                                 <div class="flex gap-2 items-center">
                                     <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                                    <p class="text-gray-400 font-normal text-xs"> Refferal</p>
+                                    <p class="text-gray-400 font-normal text-xs"> Stunting</p>
                                 </div>
                             </div>
                         </div>
-                        <div class="flex  items-center">
+                        <div class="flex items-center">
                             <div id="grade"></div>
                         </div>
                     </div>
@@ -76,23 +154,37 @@
                 <div class="card-body">
                     <div class="flex gap-6 items-center justify-between">
                         <div class="flex flex-col gap-4">
-                            <h4 class="text-gray-500 text-lg font-semibold">Product Sales</h4>
+                            <h4 class="text-gray-500 text-lg font-semibold">Average Stunting</h4>
                             <div class="flex flex-col gap-4">
-                                <h3 class="text-[22px] font-semibold text-gray-500">$6,820</h3>
-                                <div class="flex items-center gap-1">
-                                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-red-400">
-                                        <i class="ti ti-arrow-down-right text-red-500"></i>
-                                    </span>
-                                    <p class="text-gray-500 text-sm font-normal ">+9%</p>
-                                    <p class="text-gray-400 text-sm font-normal text-nowrap">last
-                                        year</p>
-                                </div>
+                                @if ($stuntingCount > $notStuntingCount)
+                                    <h3 class="text-[22px] font-semibold text-gray-500">{{ $stuntingCount }}</h3>
+                                @else
+                                    <h3 class="text-[22px] font-semibold text-gray-500">{{ $notStuntingCount }}</h3>
+                                @endif
+
+                                @if ($stuntingCount > $notStuntingCount)
+                                    <div class="flex items-center gap-1">
+                                        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-red-400">
+                                            <i class="ti ti-arrow-down-right text-black-500"></i>
+                                        </span>
+                                        <p class="text-gray-500 text-sm font-normal">-9%</p>
+                                        <p class="text-gray-400 text-sm font-normal text-nowrap">last month</p>
+                                    </div>
+                                @else
+                                    <div class="flex items-center gap-1">
+                                        <span class="flex items-center justify-center w-5 h-5 rounded-full bg-green-400">
+                                            <i class="ti ti-arrow-up-right text-black-500"></i>
+                                        </span>
+                                        <p class="text-gray-500 text-sm font-normal">+9%</p>
+                                        <p class="text-gray-400 text-sm font-normal text-nowrap">last month</p>
+                                    </div>
+                                @endif
                             </div>
                         </div>
 
                         <div
-                            class="w-11 h-11 flex justify-center items-center rounded-full bg-red-500 text-white self-start">
-                            <i class="ti ti-currency-dollar text-xl"></i>
+                            class="w-11 h-11 flex justify-center items-center rounded-full bg-gray-500 text-white self-start">
+                            <i class="ti ti-chart-line text-xl"></i>
                         </div>
 
                     </div>
@@ -106,426 +198,89 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
         <div class="card">
             <div class="card-body">
-                <h4 class="text-gray-500 text-lg font-semibold mb-5">Upcoming Schedules</h4>
+                <h4 class="text-gray-500 text-lg font-semibold mb-5">Article Terbaru</h4>
                 <ul class="timeline-widget relative">
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
+                    @foreach ($articles as $article)
+                        <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
+                            <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
+                                {{ $article->created_at->format('h:i A') }} <!-- Format waktu -->
                             </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
+                            <div class="timeline-badge-wrap flex flex-col items-center ">
+                                <div
+                                    class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
+                                </div>
+                                <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
                             </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment received from John
-                                Doe of $385.90</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
-                            10:00 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
+                            <div class="timeline-desc py-[6px] px-4">
+                                <p class="text-gray-500 font-semibold">{{ $article->title }}</p> <!-- Judul artikel -->
                             </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500  font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            12:00 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment was made of $64.95
-                                to Michael</p>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            9:30 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-yellow-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500 font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-red-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-semibold">New arrival recorded</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item flex relative overflow-hidden">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            12:00 am
-                        </div>
-                        <div class="timeline-badge-wrap flex flex-col items-center ">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment Done</p>
-                        </div>
-                    </li>
-
+                        </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
+
         <div class="col-span-2">
             <div class="card h-full">
                 <div class="card-body">
-                    <h4 class="text-gray-500 text-lg font-semibold mb-5">Top Paying Clients</h4>
+                    <h4 class="text-gray-500 text-lg font-semibold mb-5">Status Stunting</h4>
                     <div class="relative overflow-x-auto">
-                        <!-- table -->
                         <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                             <thead>
                                 <tr class="text-sm">
                                     <th scope="col" class="p-4 font-semibold">Profile</th>
-                                    <th scope="col" class="p-4 font-semibold">Hour Rate</th>
-                                    <th scope="col" class="p-4 font-semibold">Extra classes
-                                    </th>
+                                    <th scope="col" class="p-4 font-semibold">Age (months)</th>
+                                    <th scope="col" class="p-4 font-semibold">Birth Weight (kg)</th>
+                                    <th scope="col" class="p-4 font-semibold">Birth Length (cm)</th>
+                                    <th scope="col" class="p-4 font-semibold">Current Weight (kg)</th>
+                                    <th scope="col" class="p-4 font-semibold">Current Height (cm)</th>
+                                    <th scope="col" class="p-4 font-semibold">City</th>
                                     <th scope="col" class="p-4 font-semibold">Status</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-1.jpg" alt=""
-                                                    class="rounded-full w-100">
+                                @foreach ($stuntingResults as $result)
+                                    <tr>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex gap-6 items-center">
+                                                <div class="h-12 w-12 inline-block">
+                                                    <img src="{{ $result->gender == 'Perempuan' ? asset('./assets/images/profile/user-4.jpg') : asset('./assets/images/profile/user-3.jpg') }}"
+                                                        alt="" class="rounded-full w-100">
+                                                </div>
+                                                <div class="flex flex-col gap-1 text-gray-500">
+                                                    <h3 class="font-bold">{{ $result->gender }}</h3>
+                                                </div>
                                             </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class=" font-bold">Mark J. Freeman</h3>
-                                                <span class="font-normal">Prof. English</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+53</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-teal-500">Available</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-2.jpg" alt=""
-                                                    class="rounded-full w-100">
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class=" font-bold">Nina R. Oldman</h3>
-                                                <span class="font-normal">Prof. History</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+68</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-blue-500 text-blue-600">In
-                                            Class</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-3.jpg" alt=""
-                                                    class="rounded-full w-100">
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class=" font-bold">Arya H. Shah</h3>
-                                                <span class="font-normal">Prof. Maths</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+94</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-red-400 text-red-500">Absent</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-4.jpg" alt=""
-                                                    class="rounded-full w-100">
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class=" font-bold">June R. Smith</h3>
-                                                <span class="font-normal">Prof. Arts</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+27</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-yellow-400 text-yellow-500">Absent</span>
-                                    </td>
-                                </tr>
-
-
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->age }} months</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->birth_weight }} kg</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->birth_length }} cm</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->weight }} kg</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->height }} cm</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->city->name }}</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <span
+                                                class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold {{ $result->prediction_result == 'Stunting' ? 'bg-red-400 text-black' : 'bg-green-400 text-black' }}">
+                                                {{ $result->prediction_result }}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-1.jpg" alt="product_img" class="w-full">
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Boat Headphone</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center ">
-                        <h6 class=" text-gray-500 font-semibold text-base">$50</h6>
-                        <span class="text-gray-400 font-medium text-sm opacity-80">
-                            <del>$65</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-2.jpg" alt="product_img" class="w-full">
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">MacBook Air Pro</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$650</h6>
-                        <span class="text-gray-400 text-sm opacity-80">
-                            <del>$900</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-3.jpg" alt="product_img" class="w-full">
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Red Valvet Dress</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$150</h6>
-                        <span class="text-gray-400 text-sm opacity-80">
-                            <del>$200</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-4.jpg" alt="product_img" class="w-full">
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Cute Soft Teddybear</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$285</h6>
-                        <span class="text-gray-400 text-sm">
-                            <del>$345</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
                 </div>
             </div>
         </div>
