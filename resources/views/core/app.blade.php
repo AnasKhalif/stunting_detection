@@ -25,6 +25,22 @@
     @yield('content')
     @include('core.partials.script')
     @include('core.partials.footer')
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Include Select2 CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Include Select2 JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#city').select2({
+                placeholder: "Pilih Kota",
+                allowClear: true
+            })
+
+        });
+    </script>
 
 </body>
 

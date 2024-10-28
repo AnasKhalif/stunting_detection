@@ -1,39 +1,21 @@
-@extends('layouts.guest')
+@extends('core.app')
 
 @section('title')
     Kalkulator Stunting
 @endsection
 
 @section('content')
-    <div class="flex min-h-screen items-center justify-center bg-gray-100">
-        <div class="mx-auto max-w-screen-md items-center px-4 lg:justify-center">
-            <h1 class="text-center text-2xl font-bold lg:text-3xl">
-                Kalkulator Stunting Anak - Anak
-            </h1>
-            <p class="mt-2 text-center text-lg lg:mt-3 lg:text-xl">
-                Status stunting yang kami cek berdasarkan ukuran tubuh Anda, sesuai informasi yang Anda berikan. Oleh karena
-                itu masukkanlah informasi yang benar.
-            </p>
-
-            @if ($errors->any())
-                <div class="mb-4">
-                    <ul class="text-red-600">
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
-
-            <div class="mt-3 flex flex-col lg:mt-4 lg:flex-row">
-                <img width="250" src="{{ asset('images/stunting_one.png') }}" alt="Stunting Anak-anak"
-                    class="mx-auto items-center lg:py-12" />
-
-                <form action="{{ route('kalkulator.store') }}" method="POST" class="flex w-full flex-col">
-                    @csrf
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Jenis Kelamin</label>
+    <section class="w-full px-4 lg:px-10 my-24 lg:my-36">
+        <div class="mx-auto py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit mb-10">
+            <h2 class="text-2xl font-bold text-center lg:text-xl">Cek Stunting</h2>
+        </div>
+        <div class="flex flex-col lg:flex-row w-full justify-between">
+            <form action="{{ route('kalkulator.store') }}" method="POST" class="w-full lg:w-3/4 mx-auto">
+                @csrf
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+                    <!-- Jenis Kelamin -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Jenis Kelamin</label>
                         <select name="gender"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96">
                             <option value="">Pilih Jenis Kelamin</option>
@@ -42,46 +24,52 @@
                         </select>
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Usia Anak (0-60 bulan)</label>
+                    <!-- Usia Anak -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Usia (0-60 bulan)</label>
                         <input type="text" name="age"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
                             placeholder="Bulan" />
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Berat Badan Saat lahir</label>
+                    <!-- Berat Badan Saat Lahir -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Berat Badan Saat Lahir
+                            (kg)</label>
                         <input type="text" name="birth_weight"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
-                            placeholder="Cm" />
+                            placeholder="Kg" />
                     </div>
 
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Panjang Badan Saat lahir</label>
+                    <!-- Panjang Badan Saat Lahir -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Panjang Badan Saat Lahir
+                            (cm)</label>
                         <input type="text" name="birth_length"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
                             placeholder="Cm" />
                     </div>
 
-
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Berat Badan Anak</label>
+                    <!-- Berat Badan Anak Sekarang -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Berat Badan Sekarang (kg)</label>
                         <input type="text" name="weight"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
                             placeholder="Kg" />
                     </div>
 
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Tinggi Badan Anak</label>
+                    <!-- Tinggi Badan Anak Sekarang -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Tinggi Badan Sekarang (cm)</label>
                         <input type="text" name="height"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
                             placeholder="Cm" />
                     </div>
 
-                    <div class="relative mb-6">
-                        <label class="block text-sm font-medium text-gray-700 lg:text-lg">Kota</label>
-                        <select name="city_id"
+                    <!-- Kota -->
+                    <div class="col-span-1 mb-6">
+                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Kota</label>
+                        <select name="city_id" id="city"
                             class="mt-2 w-full rounded-full border border-gray-300 bg-white px-4 py-3 lg:w-96 focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                             <option value="">Pilih Kota</option>
                             @foreach ($cities as $city)
@@ -89,16 +77,16 @@
                             @endforeach
                         </select>
                     </div>
+                </div>
 
-
-                    <div class="flex lg:mr-20 lg:justify-center">
-                        <button type="submit"
-                            class="w-full rounded-full bg-green-500 py-3 text-white transition duration-200 hover:bg-green-600 lg:w-2/4">
-                            Hitung
-                        </button>
-                    </div>
-                </form>
-            </div>
+                <!-- Button Kirim -->
+                <div class="mt-6 flex lg:mr-20 lg:justify-center">
+                    <button type="submit"
+                        class="w-full rounded-full bg-green-500 py-3 text-white transition duration-200 hover:bg-green-600 lg:w-2/4">
+                        Hitung
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
+    </section>
 @endsection

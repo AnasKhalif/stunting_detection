@@ -5,10 +5,8 @@ alert crud (done)
 foto profile (done)
 jika delete sesuatu ada konfirmasi (done)
 halaman dashboard index (done)
-responsive dashboard
+responsive dashboard (done)
 forgot password tampilan
-alert jika admin tidak ada akses status stunting di arahkan dashboard akan di beri alert permission denied
-button back setiap halaman
 hasil kalkulator untuk page user
 halaman about
 halaman kalkulator
