@@ -15,6 +15,7 @@
             transform: rotate(180deg);
         }
     </style>
+
     <title>@yield('title')</title>
     @vite('resources/css/app.css')
 </head>
@@ -26,6 +27,7 @@
     @include('core.partials.script')
     @include('core.partials.footer')
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 
     <!-- Include Select2 CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
@@ -41,6 +43,30 @@
 
         });
     </script>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    @if (session('message'))
+        <script>
+            Swal.fire({
+                title: 'Hasil Prediksi',
+                text: "{{ session('message') }}",
+                width: 600,
+                padding: '3em',
+                color: '#ffffff',
+                background: '#f0fff4 url(/images/bg_balita.jpg)', // Background lebih cerah
+                backdrop: `
+                rgba(144, 238, 144, 0.5)
+                url("/images/balitaku.gif")
+                center top
+                no-repeat
+            `,
+                confirmButtonColor: '#E4E0E1', // Ubah warna tombol menjadi putih
+                confirmButtonText: 'OK' // Teks tombol
+            });
+        </script>
+    @endif
+
 
 </body>
 

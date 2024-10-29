@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\StuntingResult;
 use App\Models\Article;
+use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
@@ -18,29 +19,47 @@ class DashboardController extends Controller
         $articles = Article::orderBy('created_at', 'desc')->paginate(6);
 
         $totalStunting = StuntingResult::count();
-        $stuntingCount = StuntingResult::where('prediction_result', 'Stunting')->count();
-        $notStuntingCount = StuntingResult::where('prediction_result', 'Tidak Stunting')->count();
+        $countHigh = StuntingResult::where('prediction_result', 'tinggi')->count();
+        $countNormal = StuntingResult::where('prediction_result', 'normal')->count();
+        $countStunted = StuntingResult::where('prediction_result', 'stunted')->count();
+        $countSeverelyStunted = StuntingResult::where('prediction_result', 'severely stunted')->count();
 
-        // Ambil data harian selama 7 hari terakhir
-        $data = StuntingResult::selectRaw('DATE(created_at) as date, 
-                SUM(CASE WHEN prediction_result = "Stunting" THEN 1 ELSE 0 END) as stunting,
-                SUM(CASE WHEN prediction_result = "Tidak Stunting" THEN 1 ELSE 0 END) as not_stunting')
-            ->where('created_at', '>=', now()->subDays(7))
-            ->groupBy('date')
-            ->orderBy('date', 'asc')
-            ->get();
+        $categories = [
+            'tinggi' => $countHigh,
+            'normal' => $countNormal,
+            'stunted' => $countStunted,
+            'severely stunted' => $countSeverelyStunted
+        ];
 
-        // Ubah data ke format yang diperlukan
+        $mostFrequentCategory = array_keys($categories, max($categories))[0];
+        $mostFrequentCount = max($categories);
+
         $dates = [];
-        $stuntingData = [];
-        $notStuntingData = [];
-
-        foreach ($data as $item) {
-            $dates[] = $item->date;
-            $stuntingData[] = $item->stunting;
-            $notStuntingData[] = $item->not_stunting;
+        for ($i = 6; $i >= 0; $i--) {
+            $dates[] = Carbon::today()->subDays($i)->format('Y-m-d');
         }
 
-        return view('dashboard', compact('user', 'stuntingResults', 'articles', 'totalStunting', 'stuntingCount', 'notStuntingCount', 'dates', 'stuntingData', 'notStuntingData'));
+        $data = [];
+        foreach ($dates as $date) {
+            $data['tinggi'][] = StuntingResult::where('prediction_result', 'tinggi')->whereDate('created_at', $date)->count();
+            $data['normal'][] = StuntingResult::where('prediction_result', 'normal')->whereDate('created_at', $date)->count();
+            $data['stunted'][] = StuntingResult::where('prediction_result', 'stunted')->whereDate('created_at', $date)->count();
+            $data['severely_stunted'][] = StuntingResult::where('prediction_result', 'severely stunted')->whereDate('created_at', $date)->count();
+        }
+
+        return view('dashboard', compact(
+            'user',
+            'stuntingResults',
+            'articles',
+            'totalStunting',
+            'countHigh',
+            'countNormal',
+            'countStunted',
+            'countSeverelyStunted',
+            'mostFrequentCategory',
+            'mostFrequentCount',
+            'dates',
+            'data'
+        ));
     }
 }
