@@ -15,9 +15,6 @@ class StuntingResult extends Model
     protected $fillable = [
         'gender',
         'age',
-        'birth_weight',
-        'birth_length',
-        'weight',
         'height',
         'city_id',
         'prediction_result',

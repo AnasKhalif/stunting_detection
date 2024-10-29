@@ -17,9 +17,6 @@ class CreateStuntingResultsTable extends Migration
             $table->id(); // ID unik untuk setiap hasil prediksi
             $table->string('gender'); // Kolom untuk jenis kelamin
             $table->integer('age'); // Kolom untuk usia (dalam bulan)
-            $table->decimal('birth_weight', 5, 2); // Kolom untuk berat badan lahir (kg)
-            $table->decimal('birth_length', 5, 2); // Kolom untuk panjang badan lahir (cm)
-            $table->decimal('weight', 5, 2); // Kolom untuk berat badan saat ini (kg)
             $table->decimal('height', 5, 2); // Kolom untuk tinggi badan saat ini (cm)
             $table->foreignId('city_id')->constrained('indonesia_cities'); // Relasi dengan tabel cities
             $table->string('prediction_result'); // Kolom untuk hasil prediksi ('Stunting' atau 'Tidak Stunting')

@@ -37,23 +37,16 @@ class KalkulatorController extends Controller
         $validated = $request->validate([
             'gender' => 'required',
             'age' => 'required|numeric|min:0|max:60',
-            'birth_weight' => 'required|numeric|min:0',
-            'birth_length' => 'required|numeric|min:0',
-            'weight' => 'required|numeric|min:0',
             'height' => 'required|numeric|min:0',
             'city_id' => 'required|exists:indonesia_cities,id',
         ]);
 
-        // Kirim data ke API Python untuk prediksi
         // Kirim data ke API Python untuk prediksi
         $client = new Client();
         $response = $client->post('http://127.0.0.1:5000/predict', [
             'json' => [
                 'Gender' => $validated['gender'],
                 'Age' => $validated['age'],
-                'Birth Weight' => $validated['birth_weight'],
-                'Birth Length' => $validated['birth_length'],
-                'Body Weight' => $validated['weight'],
                 'Body Length' => $validated['height'],
                 'Breastfeeding' => 'Yes'
             ]
@@ -69,9 +62,6 @@ class KalkulatorController extends Controller
         StuntingResult::create([
             'gender' => $validated['gender'],
             'age' => $validated['age'],
-            'birth_weight' => $validated['birth_weight'],
-            'birth_length' => $validated['birth_length'],
-            'weight' => $validated['weight'],
             'height' => $validated['height'],
             'city_id' => $validated['city_id'],
             'prediction_result' => $predictionResult, // Simpan hasil sebagai string
