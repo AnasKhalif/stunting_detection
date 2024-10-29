@@ -37,26 +37,26 @@ class KalkulatorController extends Controller
         $validated = $request->validate([
             'gender' => 'required',
             'age' => 'required|numeric|min:0|max:60',
-            'height' => 'required|numeric|min:0',
+            'height' => 'required',
             'city_id' => 'required|exists:indonesia_cities,id',
         ]);
+
+        $genderNumeric = $validated['gender'] === 'laki-laki' ? 0 : 1;
 
         // Kirim data ke API Python untuk prediksi
         $client = new Client();
         $response = $client->post('http://127.0.0.1:5000/predict', [
             'json' => [
-                'Gender' => $validated['gender'],
-                'Age' => $validated['age'],
-                'Body Length' => $validated['height'],
-                'Breastfeeding' => 'Yes'
+                'Jenis Kelamin' => $genderNumeric,
+                'Umur (bulan)' => floatval($validated['age']),
+                'Tinggi Badan (cm)' => floatval($validated['height']),
             ]
         ]);
 
         // Mendapatkan hasil prediksi dari Flask API
         $prediction = json_decode($response->getBody(), true);
+        $predictionResult = $prediction['stunting_status'];
 
-        // Ubah hasil prediksi 0 dan 1 menjadi string
-        $predictionResult = $prediction['stunting_status'] == 1 ? "Stunting" : "Tidak Stunting";
 
         // Simpan hasil prediksi ke database
         StuntingResult::create([

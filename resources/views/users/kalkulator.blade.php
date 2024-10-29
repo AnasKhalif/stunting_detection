@@ -19,8 +19,8 @@
                         <select name="gender"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96">
                             <option value="">Pilih Jenis Kelamin</option>
-                            <option value="Laki-laki">Laki-laki</option>
-                            <option value="Perempuan">Perempuan</option>
+                            <option value="laki-laki">Laki-laki</option>
+                            <option value="perempuan">Perempuan</option>
                         </select>
                     </div>
 
