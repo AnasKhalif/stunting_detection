@@ -32,32 +32,6 @@
                             placeholder="Bulan" />
                     </div>
 
-                    <!-- Berat Badan Saat Lahir -->
-                    <div class="col-span-1 mb-6">
-                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Berat Badan Saat Lahir
-                            (kg)</label>
-                        <input type="text" name="birth_weight"
-                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
-                            placeholder="Kg" />
-                    </div>
-
-                    <!-- Panjang Badan Saat Lahir -->
-                    <div class="col-span-1 mb-6">
-                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Panjang Badan Saat Lahir
-                            (cm)</label>
-                        <input type="text" name="birth_length"
-                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
-                            placeholder="Cm" />
-                    </div>
-
-                    <!-- Berat Badan Anak Sekarang -->
-                    <div class="col-span-1 mb-6">
-                        <label class="block text-sm font-medium text-gray-900 lg:text-lg">Berat Badan Sekarang (kg)</label>
-                        <input type="text" name="weight"
-                            class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3 lg:w-96"
-                            placeholder="Kg" />
-                    </div>
-
                     <!-- Tinggi Badan Anak Sekarang -->
                     <div class="col-span-1 mb-6">
                         <label class="block text-sm font-medium text-gray-900 lg:text-lg">Tinggi Badan Sekarang (cm)</label>

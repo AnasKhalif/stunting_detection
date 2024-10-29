@@ -7,6 +7,74 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Features
+- [x] Sweet alert
+- [x] Humberger landing page
+- [x] Faq
+- [x] Alert crud
+- [x] Foto profile
+- [x] Jika delete sesuatu ada konfirmasi
+- [x] Halaman dashboard index
+- [x] Responsive dashboard
+- [ ] Forgot password tampilan
+- [ ] Hasil kalkulator untuk page user
+- [ ] Halaman about
+- [ ] Halaman kalkulator
+- [ ] Training data
+- [ ] Isi artikel
+- [ ] Logo
+
+## Installation
+- clone project
+    
+    using `https`
+    ```bash
+    https://github.com/AnasKhalif/stunting_detection.git
+    ```
+
+    using `ssh`
+    ```bash
+    git@github.com:AnasKhalif/stunting_detection.git
+    ```
+
+- Install dependencies
+
+    ```bash
+    composer install
+    ```
+
+    ```bash
+    npm install
+    ```
+
+- Copy .env
+
+    ```bash
+    cp .env.example .env
+    ```
+
+- Generate key
+
+    ```bash
+    php artisan key:generate
+    ```
+
+- Migrate database
+
+    ```bash
+    php artisan migrate --seed
+    ```
+
+- Running app
+
+    ```bash
+    npm run dev
+    ```
+
+    ```bash
+    php artisan serve
+    ```
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
