@@ -125,50 +125,23 @@
                                             aria-labelledby="hs-dropdown-custom-icon-trigger">
                                             <div>
                                                 <h3 class="text-gray-500 font-semibold text-base px-6 py-3">
-                                                    Notification</h3>
-                                                <ul class="list-none  flex flex-col">
+                                                    Notification
+                                                </h3>
+                                                <ul class="list-none flex flex-col">
                                                     <li>
                                                         <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">Roman
-                                                                Joined the Team!</p>
+                                                            <p class="text-sm text-gray-500 font-medium">
+                                                                Anda login sebagai
+                                                                {{ auth()->user()->roles->first()->display_name }}
+                                                            </p>
                                                             <p class="text-xs text-gray-400 font-medium">
-                                                                Congratulate him</p>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">New
-                                                                message received</p>
-                                                            <p class="text-xs text-gray-400 font-medium">Salma sent
-                                                                you new message</p>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">New
-                                                                Payment received</p>
-                                                            <p class="text-xs text-gray-400 font-medium">Check your
-                                                                earnings</p>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">Jolly
-                                                                completed tasks</p>
-                                                            <p class="text-xs text-gray-400 font-medium">Assign her
-                                                                new tasks</p>
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">Roman
-                                                                Joined the Team!</p>
-                                                            <p class="text-xs text-gray-400 font-medium">
-                                                                Congratulate him</p>
+                                                                Congratulate {{ auth()->user()->name }}
+                                                            </p>
                                                         </a>
                                                     </li>
                                                 </ul>
                                             </div>
+
                                         </div>
                                     </div>
 
