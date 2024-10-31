@@ -14,8 +14,8 @@
             <ul class="space-y-2">
                 <li><a href="/" class="hover:text-green-500">Home</a></li>
                 <li><a href="/about" class="hover:text-green-500">About Us</a></li>
-                <li><a href="/calculator" class="hover:text-green-500">Stunting Calculator</a></li>
-                <li><a href="/contact" class="hover:text-green-500">Contact</a></li>
+                <li><a href="/kalkulator" class="hover:text-green-500">Stunting Calculator</a></li>
+                <li><a href="#" class="hover:text-green-500">Contact</a></li>
             </ul>
         </div>
 
@@ -25,7 +25,7 @@
             <ul class="space-y-2">
                 <p class="">Email: info@stuntingcheck.com</p>
                 <p class="">Phone: +62 812 3456 7890</p>
-                <p class="">Address: Jl. Kesehatan No. 123, Jakarta</p>
+                <p class="">Address: Jl. Veteran No. 123, Malang</p>
             </ul>
         </div>
     </div>

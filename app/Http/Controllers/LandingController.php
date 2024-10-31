@@ -36,4 +36,9 @@ class LandingController extends Controller
         $article = Article::findOrFail($id);
         return view('users.artikel_detail', compact('article'));
     }
+
+    public function indexAbout()
+    {
+        return view('users.about');
+    }
 }

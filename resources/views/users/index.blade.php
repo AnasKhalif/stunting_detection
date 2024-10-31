@@ -8,7 +8,7 @@
     <section
         class="flex lg:justify-between items-center justify-center w-full min-h-screen px-4 lg:px-10 flex-col gap-10 lg:flex-row-reverse lg:my-20">
         <div class="lg:w-1/2 lg:mx-auto">
-            <img src="./img/hero-illustration.png" class="w-8/12 mx-auto" alt="img-hero" />
+            <img src="{{ asset('./img/hero-illustration.png') }}" class="w-8/12 mx-auto" alt="img-hero" />
         </div>
         <div class="flex flex-col lg:w-1/2 lg:mx-auto gap-3 text-center lg:text-left">
             <h1 class="text-2xl lg:text-6xl font-bold">

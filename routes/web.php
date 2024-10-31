@@ -16,6 +16,7 @@ use App\Http\Controllers\FaqController;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
+Route::get('/about', [LandingController::class, 'indexAbout'])->name('about');
 Route::get('/artikel', [LandingController::class, 'indexArtikel'])->name('artikel');
 Route::get('/artikel/{id}', [LandingController::class, 'show'])->name('artikel.show');
 Route::get('/kalkulator', [KalkulatorController::class, 'create'])->name('kalkulator.create');
