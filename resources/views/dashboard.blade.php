@@ -10,8 +10,7 @@
             <div class="card">
                 <div class="card-body">
                     <div class="flex  justify-between mb-5">
-                        <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Profit &
-                            Expenses</h4>
+                        <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Weekly Traffic</h4>
                         <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
                             <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                                 <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
