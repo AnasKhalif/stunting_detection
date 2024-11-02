@@ -7,6 +7,7 @@ use App\Traits\FlashAlert;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {

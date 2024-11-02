@@ -135,18 +135,29 @@
                                                     Notification
                                                 </h3>
                                                 <ul class="list-none flex flex-col">
-                                                    <li>
-                                                        <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                                            <p class="text-sm text-gray-500 font-medium">
-                                                                Anda login sebagai
-                                                                {{ auth()->user()->roles->first()->display_name }}
-                                                            </p>
-                                                            <p class="text-xs text-gray-400 font-medium">
-                                                                Congratulate {{ auth()->user()->name }}
-                                                            </p>
-                                                        </a>
-                                                    </li>
+                                                    @if (auth()->check())
+                                                        <li>
+                                                            <a href="#" class="py-3 px-6 block hover:bg-gray-200">
+                                                                <p class="text-sm text-gray-500 font-medium">
+                                                                    Anda login sebagai
+                                                                    {{ auth()->user()->roles->first()->display_name }}
+                                                                </p>
+                                                                <p class="text-xs text-gray-400 font-medium">
+                                                                    Congratulate {{ auth()->user()->name }}
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    @else
+                                                        <li>
+                                                            <a href="#" class="py-3 px-6 block hover:bg-gray-200">
+                                                                <p class="text-sm text-gray-500 font-medium">
+                                                                    Anda belum login.
+                                                                </p>
+                                                            </a>
+                                                        </li>
+                                                    @endif
                                                 </ul>
+
                                             </div>
 
                                         </div>
@@ -159,7 +170,7 @@
                                     class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
                                     <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                                         <img class="object-cover w-9 h-9 rounded-full"
-                                            src="{{ auth()->user()->profile_photo_path ? asset('storage/' . auth()->user()->profile_photo_path) : asset('./img/default-avatar.jpeg') }}"
+                                            src="{{ auth()->check() && auth()->user()->profile_photo_path ? asset('storage/' . auth()->user()->profile_photo_path) : asset('./img/default-avatar.jpeg') }}"
                                             alt="User Avatar" aria-hidden="true">
 
 
