@@ -14,4 +14,9 @@ training data
 isi artikel
 logo
 
+sweet alert setelah kirim pesan kontak (done)
+field inputan required pesan eror
+cek inputan user apakah bisa di inject
+sweet alert di hp apakah sudah responsive
+
 ## penginstallan project ##

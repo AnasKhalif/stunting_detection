@@ -67,6 +67,17 @@
         </script>
     @endif
 
+    @if (session('contact_message'))
+        <script>
+            Swal.fire({
+                icon: 'success',
+                title: 'Pesan Terkirim',
+                text: "{{ session('contact_message') }}",
+                confirmButtonText: 'OK',
+                confirmButtonColor: '#28a745' // Warna hijau
+            });
+        </script>
+    @endif
 
 </body>
 
