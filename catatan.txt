@@ -6,17 +6,18 @@ foto profile (done)
 jika delete sesuatu ada konfirmasi (done)
 halaman dashboard index (done)
 responsive dashboard (done)
-forgot password tampilan
-hasil kalkulator untuk page user
-halaman about
-halaman kalkulator
-training data
+forgot password tampilan (done)
+tampilan ganti password 
+hasil kalkulator untuk page user (done)
+halaman about 
+halaman kalkulator (done)
+training data (done)
 isi artikel
 logo
 
 sweet alert setelah kirim pesan kontak (done)
 field inputan required pesan eror
 cek inputan user apakah bisa di inject
-sweet alert di hp apakah sudah responsive
+sweet alert di hp apakah sudah responsive (done)
 
 ## penginstallan project ##
