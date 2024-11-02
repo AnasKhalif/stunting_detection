@@ -9,6 +9,8 @@ use Laratrust\Traits\HasRolesAndPermissions;
 
 class MessageController extends Controller
 {
+    use FlashAlert;
+
     public function index()
     {
         $user = request()->user();
