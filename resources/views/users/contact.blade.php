@@ -41,6 +41,9 @@
                 <input type="text" name="name" id="name" placeholder="Nama Lengkap Anda"
                     class="text-sm border border-gray-300 rounded-full py-3 px-4 focus:border-green-600 focus:ring-2 focus:ring-green-200 transition duration-300 ease-in-out outline-none"
                     required>
+                @error('name')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="flex flex-col mb-4">
@@ -48,6 +51,9 @@
                 <input type="email" name="email" id="email" placeholder="Alamat Email"
                     class="text-sm border border-gray-300 rounded-full py-3 px-4 focus:border-green-600 focus:ring-2 focus:ring-green-200 transition duration-300 ease-in-out outline-none"
                     required>
+                @error('email')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="flex flex-col mb-4">
@@ -55,6 +61,9 @@
                 <input type="tel" name="phone" id="tel" placeholder="Nomor Telepon Anda"
                     class="text-sm border border-gray-300 rounded-full py-3 px-4 focus:border-green-600 focus:ring-2 focus:ring-green-200 transition duration-300 ease-in-out outline-none"
                     required>
+                @error('phone')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="flex flex-col mb-4">
@@ -62,6 +71,9 @@
                 <input type="text" name="subject" id="subject" placeholder="Subject Pesan Anda"
                     class="text-sm border border-gray-300 rounded-full py-3 px-4 focus:border-green-600 focus:ring-2 focus:ring-green-200 transition duration-300 ease-in-out outline-none"
                     required>
+                @error('subject')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="flex flex-col mb-4">
@@ -69,6 +81,9 @@
                 <textarea name="message" id="message" rows="4" placeholder="Tulis pesan Anda di sini..."
                     class="text-sm border border-gray-300 rounded-lg py-3 px-4 focus:border-green-600 focus:ring-2 focus:ring-green-200 transition duration-300 ease-in-out outline-none resize-none"
                     required></textarea>
+                @error('message')
+                    <span class="text-red-500 text-sm">{{ $message }}</span>
+                @enderror
             </div>
 
             <button type="submit" name="send" id="send"

@@ -21,6 +21,9 @@
                             <option value="laki-laki">Laki-laki</option>
                             <option value="perempuan">Perempuan</option>
                         </select>
+                        @error('gender')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Usia Anak -->
@@ -29,6 +32,9 @@
                         <input type="text" name="age"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3"
                             placeholder="Bulan" />
+                        @error('age')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Tinggi Badan Anak Sekarang -->
@@ -37,6 +43,9 @@
                         <input type="text" name="height"
                             class="mt-2 w-full rounded-full border border-black bg-transparent px-4 py-3"
                             placeholder="Cm" />
+                        @error('height')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
 
                     <!-- Kota -->
@@ -49,6 +58,9 @@
                                 <option value="{{ $city->id }}">{{ $city->name }}</option>
                             @endforeach
                         </select>
+                        @error('city_id')
+                            <span class="text-red-500 text-sm">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
 
