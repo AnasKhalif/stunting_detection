@@ -48,6 +48,13 @@
 
                         <li class="sidebar-item">
                             <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
+                                href="{{ route('message.index') }}">
+                                <i class="ti ti-mail-forward ps-2 text-2xl"></i> <span>Message</span>
+                            </a>
+                        </li>
+
+                        <li class="sidebar-item">
+                            <a class="sidebar-link gap-3 py-2.5 my-1 text-base   flex items-center relative  rounded-md text-green-700  w-full"
                                 href="{{ route('faq.index') }}">
                                 <i class="ti ti-zoom-question ps-2 text-2xl"></i> <span>FAQ</span>
                             </a>
