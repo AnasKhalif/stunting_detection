@@ -15,7 +15,8 @@ export default {
                 sans: ["Poppins", ...defaultTheme.fontFamily.sans],
             },
             backgroundImage: {
-                "hero-ilustration": "url('/img/hero-ilustration.png')", // Sesuaikan path gambar kamu
+                heroIllustration: "url('/img/hero-ilustration.png')",
+                aboutJumbotron: "url('/img/about-hero.jpg')",
             },
             boxShadow: {
                 "shadow-card": "10px 10px 0px 0px rgb(21 128 61)",

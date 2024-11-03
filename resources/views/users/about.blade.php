@@ -1,71 +1,90 @@
 @extends('core.app')
 
 @section('title')
-    About
+About
 @endsection
 
 @section('content')
-    <section class="flex flex-col md:flex-row items-center py-24 lg:justify-center lg:py-32">
-        <div class="w-full md:w-auto flex justify-center">
-            <img src="/img/about.png" alt="About Us Image" class="w-3/4 md:w-full h-auto object-cover">
+
+
+<section class="relative flex mt-20 flex-col items-center justify-center w-full h-[20vh] mt:20 lg:h-[30vh] text-white bg-cover bg-center bg-aboutJumbotron after:bg-black after:w-full after:h-[20vh] after:absolute after:lg:h-[30vh] after:bg-opacity-45">
+    <h1 class="font-extrabold text-2xl lg:text-3xl z-10">About</h1>
+    <span class="text-xs lg:text-sm z-10">
+        <b>Home > About</b>
+    </span>
+</section>
+
+<section class="flex flex-col justify-center items-center mt-8 mb-12 px-5 md:px-10">
+    <div class="mx-auto mb-12 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
+        <h2 class="text-2xl font-bold text-center lg:text-xl">About Stunting Check</h2>
+    </div>
+    <p class="text-neutral-600 text-sm text-center">Stunting Check adalah platform digital yang berkomitmen membantu orang tua dan pengasuh dalam memantau tumbuh kembang anak guna mencegah stunting. Kami menyediakan informasi yang akurat, edukasi yang mudah dipahami, dan alat pemantauan praktis agar setiap anak di Indonesia bisa tumbuh dengan optimal, sehat, dan cerdas. Dengan dukungan para ahli, kami berupaya meningkatkan kesadaran masyarakat tentang pentingnya gizi dan kesehatan anak, menciptakan generasi masa depan yang bebas dari stunting. Bergabunglah bersama kami untuk mewujudkan Indonesia yang lebih sehat dan sejahtera.</p>
+    <a href="{{ route('kalkulator.create') }}"
+        class="flex mx-auto lg:mx-0 items-center justify-between gap-2 font-semibold py-3 px-6 rounded-full bg-green-700 hover:bg-green-800 text-white w-fit text-sm mt-7">
+        Cek Stunting
+        <img src="{{ asset('./icon/arrow.svg') }}" class="mr-0" alt="calculator" />
+    </a>
+</section>
+
+<section class="my-10 mx-5 lg:mx-10 lg:py-20">
+    <div class="flex flex-col lg:flex-row gap-5 lg:gap-20 align-middle items-center">
+        <div class="w-full lg:w-1/2">
+            <h1 class="font-bold text-2xl">Our Vision</h1>
+            <p class="text-sm text-neutral-600 ">
+                Kami memiliki visi untuk menjadi platform terpercaya dalam mendukung upaya pencegahan dan penanganan stunting di Indonesia. Dengan menyediakan informasi dan edukasi yang akurat serta mudah diakses oleh masyarakat, kami berharap dapat membantu memastikan tumbuh kembang anak-anak Indonesia yang optimal, sehat, dan berkualitas.</p>
+            <h1 class="font-bold text-2xl text-end mt-5">Our Mission</h1>
+            <p class="text-sm text-end text-neutral-600 ">
+                Kami berkomitmen untuk meningkatkan kesadaran masyarakat tentang stunting melalui edukasi yang mudah dipahami dan alat pemantauan yang praktis. Dengan bekerja sama dengan para ahli, kami menyediakan informasi yang akurat dan terkini untuk membantu orang tua memantau tumbuh kembang anak. Tujuan kami adalah menciptakan generasi Indonesia yang sehat, cerdas, dan bebas dari stunting.</p>
+
         </div>
-        <div class="w-full md:w-1/2 text-center md:text-left px-6 md:px-12">
-            <h2 class="text-2xl lg:text-6xl font-semibold text-gray-800 mb-4">About <span class="text-green-700">Us</span>
-            </h2>
-            <p class="text-gray-600 text-sm">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis,
-                pulvinar dapibus leo.
-            </p>
+        <div class="w-full lg:w-1/2 grid grid-cols-2 gap-4">
+            <img src="/img/hero-section.png" class="aspect-video" alt="" />
+            <img src="/img/hero-section.png" class="aspect-video" alt="" />
+            <img src="/img/hero-section.png" class="aspect-video" alt="" />
+            <img src="/img/hero-section.png" class="aspect-video" alt="" />
         </div>
-    </section>
+    </div>
+</section>
 
-
-    <section class="flex flex-col justify-center items-center mt-8 mb-12">
-        <div class="mx-auto mb-12 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
-            <h2 class="text-2xl font-bold text-center lg:text-xl">Vision and Mission</h2>
+<section class="flex flex-col lg:flex-row justify-between items-center w-full px-4 lg:px-10 lg:my-20">
+    <div class="flex flex-col gap-6">
+        <div
+            class="mx-auto mb-4 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
+            <h2 class="text-2xl font-bold text-center lg:text-xl">Why Choose Us</h2>
         </div>
-
-        <div class="hidden lg:flex justify-center mb-8">
-            <svg xmlns="http://www.w3.org/2000/svg" width="371" height="600" viewBox="0 0 371 600" fill="none">
-                <!-- Lingkaran -->
-                <circle cx="14.414" cy="260.312" r="11.56" fill="black" />
-                <circle cx="359.365" cy="569.197" r="11.56" fill="black" />
-                <circle cx="185.502" cy="12.4653" r="11.56" fill="black" />
-
-                <!-- Garis Path Utama -->
-                <path d="M185.502 12.4653C185.502 12.4653 184 100 192.973 413" stroke="black" stroke-width="8" />
-
-                <!-- Path Teks Misi -->
-                <path d="M362.973 569C265.107 565.935 197.433 562.17 192.973 413" stroke="black" stroke-width="8" />
-
-                <!-- Path Teks Visi -->
-                <path d="M24 260C184.025 255.846 192.729 223.94 187 160" stroke="black" stroke-width="8" />
-            </svg>
-        </div>
-
-        <div class="flex flex-col md:flex-row justify-center items-center w-full space-y-4 md:space-y-0 md:space-x-4 px-4">
-            <!-- Menambahkan px-4 untuk padding horizontal -->
-            <div class="p-6 rounded-2xl border-2 border-green-700 max-w-xs flex-1">
-                <h1 class="font-bold text-lg">Vision</h1>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+            <div
+                class="p-6 rounded-2xl border-2 border-green-700 shadow-green-700 transition duration-300 shadow-shadow-card">
+                <h1 class="font-bold text-lg">Akurasi Tinggi dengan <span class="text-green-700">Teknologi AI</span></h1>
                 <p class="text-neutral-600 text-sm">
-                    Menjadi platform terdepan yang mendukung upaya pencegahan stunting di Indonesia dengan menyediakan
-                    informasi, edukasi, dan alat yang dapat diakses oleh masyarakat untuk memastikan generasi mendatang
-                    tumbuh
-                    sehat, cerdas, dan berdaya saing.
+                    Stunting Check menggunakan teknologi AI canggih dengan tingkat akurasi hingga 97% dalam memantau dan menganalisis tumbuh kembang anak. Ini memastikan orang tua mendapatkan hasil yang akurat dan terpercaya untuk kesehatan anak mereka.
                 </p>
             </div>
-
-            <div class="p-6 rounded-2xl border-2 border-green-700 max-w-xs flex-1">
-                <h1 class="font-bold text-lg">Mission</h1>
+            <div
+                class="p-6 rounded-2xl border-2 border-green-700 shadow-green-700 transition duration-300 shadow-shadow-card">
+                <h1 class="font-bold text-lg">Dukungan dari<span class="text-green-700"> Para Ahli</span></h1>
                 <p class="text-neutral-600 text-sm">
-                    meningkatkan kesadaran dan pengetahuan masyarakat tentang stunting. Kami berkomitmen untuk menyediakan
-                    informasi terkini dan akurat mengenai kesehatan anak, nutrisi, dan perkembangan melalui artikel,
-                    panduan, dan
-                    sumber
-                    daya lainnya.
+                    Setiap informasi dan layanan yang kami sediakan didukung oleh tim ahli di bidang kesehatan anak dan gizi, termasuk dokter anak dan ahli gizi. Kami memastikan bahwa semua edukasi yang kami bagikan selalu mengikuti standar medis terbaru.
+                </p>
+            </div>
+            <div
+                class="p-6 rounded-2xl border-2 border-green-700 shadow-green-700 transition duration-300 shadow-shadow-card">
+                <h1 class="font-bold text-lg">Gratis dan <span class="text-green-700">Mudah Diakses </span>untuk Semua </h1>
+                <p class="text-neutral-600 text-sm">
+                    Anak yang mengalami stunting seringkali menunjukkan keterlambatan dalam perkembangan kognitif,
+                    seperti sulit fokus,
+                    lambat merespons, dan menghadapi tantangan dalam belajar.
+                </p>
+            </div>
+            <div
+                class="p-6 rounded-2xl border-2 border-green-700 shadow-green-700 transition duration-300 shadow-shadow-card">
+                <h1 class="font-bold text-lg">Kerahasiaan dan <span class="text-green-700">Keamanan Data </span></h1>
+                <p class="text-neutral-600 text-sm">
+                    Privasi Anda adalah prioritas kami. Semua data yang Anda masukkan ke dalam platform Stunting Check dijamin kerahasiaannya dan disimpan dengan protokol keamanan yang tinggi, sehingga Anda dapat memantau pertumbuhan anak dengan tenang dan aman.
                 </p>
             </div>
         </div>
+    </div>
+</section>
 
-    </section>
 @endsection
