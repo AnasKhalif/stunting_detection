@@ -21,7 +21,7 @@ class KalkulatorController extends Controller
      */
     public function create()
     {
-        $cities = City::where('province_code', 35) // 35 adalah code untuk Jawa Timur
+        $cities = City::where('province_code', 35)
             ->get();
 
         return view('users.kalkulator', compact('cities'));
@@ -64,7 +64,7 @@ class KalkulatorController extends Controller
             'age' => $validated['age'],
             'height' => $validated['height'],
             'city_id' => $validated['city_id'],
-            'prediction_result' => $predictionResult, // Simpan hasil sebagai string
+            'prediction_result' => $predictionResult,
         ]);
 
 

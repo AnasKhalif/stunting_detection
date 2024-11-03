@@ -13,6 +13,8 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\LandingController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\FaqController;
+use App\Http\Controllers\ContactController;
+use App\Http\Controllers\MessageController;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -22,6 +24,8 @@ Route::get('/artikel/{id}', [LandingController::class, 'show'])->name('artikel.s
 Route::get('/kalkulator', [KalkulatorController::class, 'create'])->name('kalkulator.create');
 Route::post('/kalkulator', [KalkulatorController::class, 'store'])->name('kalkulator.store');
 
+Route::get('/kontak', [ContactController::class, 'index'])->name('kontak');
+Route::post('/kontak', [ContactController::class, 'store'])->name('kontak.store');
 
 Route::name('admin.')->prefix('admin')->namespace('App\Http\Controllers\Admin')->middleware(['auth', 'role:superadmin'])->group(function () {
     Route::resource('user', 'UserController');
@@ -32,6 +36,8 @@ Route::name('admin.')->prefix('admin')->namespace('App\Http\Controllers\Admin')-
 Route::resource('status', StatusController::class)->middleware('auth');
 Route::resource('article', ArticleController::class)->middleware('auth');
 Route::resource('faq', FaqController::class)->middleware('auth');
+Route::resource('message', MessageController::class)->middleware('auth');
+
 
 
 Route::middleware('auth')->group(function () {

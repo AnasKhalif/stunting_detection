@@ -7,6 +7,7 @@ use App\Traits\FlashAlert;
 use Laratrust\Traits\HasRolesAndPermissions;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -118,25 +119,25 @@ class ArticleController extends Controller
                 $request->validate([
                     'title' => ['required', 'string', 'max:255'],
                     'body' => ['required', 'string'],
-                    'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'], // Validasi untuk gambar
+                    'image' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
                 ]);
 
-                // Data artikel yang akan diperbarui
+
                 $articleData = $request->only(['title', 'body', 'published']);
 
-                // Jika ada gambar yang diunggah, simpan gambar dan ambil path-nya
+
                 if ($request->hasFile('image')) {
-                    // Hapus gambar lama jika ada
+
                     if ($article->image) {
                         Storage::disk('public')->delete($article->image);
                     }
 
-                    // Simpan gambar baru
-                    $imagePath = $request->file('image')->store('article', 'public'); // Simpan gambar ke storage/app/public/article
-                    $articleData['image'] = $imagePath; // Menyimpan path gambar ke dalam data artikel
+
+                    $imagePath = $request->file('image')->store('article', 'public');
+                    $articleData['image'] = $imagePath;
                 }
 
-                $article->update($articleData); // Update artikel dengan data yang diperbarui
+                $article->update($articleData);
                 return redirect()->route('article.index')->with($this->alertUpdated());
             } else {
                 return redirect()->route('article.index')->with($this->permissionDenied());

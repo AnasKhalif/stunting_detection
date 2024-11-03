@@ -19,17 +19,15 @@ class StatusController extends Controller
     {
         $user = request()->user();
 
-        // Periksa apakah user memiliki permission 'status-read' atau role 'superadmin'
-        if ($user->hasRole('superadmin') || $user->isAbleTo('status-read')) {
-            // Mengambil data stunting paling terbaru dengan pagination dan relasi kota
-            $stuntingResults = StuntingResult::with('city')
-                ->orderBy('created_at', 'desc') // Mengurutkan dari yang terbaru
-                ->paginate(6); // 6 data per halaman
 
-            // Jika user memiliki akses, tampilkan halaman status
+        if ($user->hasRole('superadmin') || $user->isAbleTo('status-read')) {
+
+            $stuntingResults = StuntingResult::with('city')
+                ->orderBy('created_at', 'desc')
+                ->paginate(6);
+
             return view('status.index', compact('stuntingResults'));
         } else {
-            // Jika tidak memiliki akses, arahkan kembali dengan pesan permission denied
             return redirect()->route('dashboard')->with($this->permissionDenied());
         }
     }

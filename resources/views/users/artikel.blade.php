@@ -5,8 +5,10 @@
 @endsection
 
 @section('content')
-    <section class="px-4 lg:px-10 lg:my-32">
-        <h2 class="text-2xl font-bold text-center"><span class="text-green-700">Artikel </span>Kami</h2>
+    <section class="px-4 lg:px-10 lg:my-32 my-24">
+        <div class="mx-auto py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit mb-10">
+            <h2 class="text-2xl font-bold text-center lg:text-xl">Artikel</h2>
+        </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10 rounded mt-6">
             @foreach ($articles as $article)
                 <div class="flex flex-col shadow-md rounded-3xl p-5 group hover:cursor-pointer">
