@@ -16,7 +16,7 @@
 
     <section class="flex flex-col justify-center items-center mt-8 mb-12 px-5 md:px-10">
         <div class="mx-auto mb-12 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
-            <h2 class="text-2xl font-bold text-center lg:text-xl">About Stunting Check</h2>
+            <h2 class="text-2xl font-bold text-center lg:text-xl">About Smart Growth</h2>
         </div>
         <p class="text-neutral-600 text-sm text-center">Stunting Check adalah platform digital yang berkomitmen membantu
             orang tua dan pengasuh dalam memantau tumbuh kembang anak guna mencegah stunting. Kami menyediakan informasi

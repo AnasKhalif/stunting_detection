@@ -1,7 +1,9 @@
 <footer class="text-green-800 border-t border-green-800 bg-white py-20 px-4 lg:px-10 text-sm">
     <div class="mx-auto px-4 flex flex-col lg:flex-row justify-between items-start gap-6">
         <div class="flex flex-col lg:w-1/2">
-            <h2 class="text-2xl font-bold">Stunting Check</h2>
+            <a href="{{ route('home') }}" class="flex items-center">
+                <img src="{{ asset('img/Artboard.png') }}" alt="Stunting Check Logo" class="h-10">
+            </a>
             <p class="mt-4 text-left text-neutral-500">
                 Platform untuk membantu orang tua memantau pertumbuhan anak dan mencegah stunting. Bersama kita
                 wujudkan generasi yang
@@ -38,5 +40,5 @@
     <!-- Bottom Footer -->
 </footer>
 <div class="flex justify-center items-center border-t py-4 text-xs text-center">
-    <p>&copy; 2024 Stunting Check. All rights reserved.</p>
+    <p>&copy; 2024 Smart Growth. All rights reserved.</p>
 </div>

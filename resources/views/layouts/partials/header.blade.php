@@ -7,7 +7,9 @@
             <div class="p-4">
 
                 <div class="flex justify-center items-center h-full">
-                    <h1 class="text-2xl font-bold py-2"><span class="text-green-700">Stunting</span> Check</h1>
+                    <div class="flex justify-center items-center h-full">
+                        <img src="{{ asset('img/Artboard.png') }}" alt="Stunting Check Logo" class="h-10 w-auto">
+                    </div>
                 </div>
 
 

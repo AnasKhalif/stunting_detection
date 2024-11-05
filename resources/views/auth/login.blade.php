@@ -11,7 +11,7 @@
         <div class="justify-center items-center w-full card lg:flex max-w-md ">
             <div class="w-full card-body">
                 <div class="flex justify-center items-center h-full">
-                    <h1 class="text-xl font-bold"><span class="text-green-700">Stunting</span> Check</h1>
+                    <h1 class="text-xl font-bold"><span class="text-green-700">Smart</span> Growth</h1>
                 </div>
 
                 <p class="mb-4 text-gray-400 text-sm text-center">Mulai perjalanan Anda untuk memastikan masa depan sehat

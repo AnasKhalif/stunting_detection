@@ -1,10 +1,12 @@
 <header class="fixed h-[12vh] top-0 flex bg-white w-full shadow-md px-4 lg:px-10 z-50">
     <div class="flex w-full justify-between items-center align-middle">
-        <h1 class="text-lg font-bold"><span class="text-green-700">Stunting</span> Check</h1>
+        <a href="{{ route('home') }}" class="flex items-center">
+            <img src="{{ asset('img/Artboard.png') }}" alt="Stunting Check Logo" class="h-10">
+        </a>
 
         <!-- Button Hamburger -->
         <button id="menu-btn" class="block lg:hidden text-gray-600 focus:outline-none">
-            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+            <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
             </svg>
