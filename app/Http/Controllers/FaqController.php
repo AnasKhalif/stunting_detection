@@ -21,11 +21,10 @@ class FaqController extends Controller
 
         if ($user->hasRole('superadmin') || $user->isAbleTo('faqs-read')) {
             $faqs = Faq::paginate(10);
+            return view('faq.index', compact('faqs'));
         } else {
-            $faqs = Faq::where('user_id', $user->id)->paginate(10);
+            return redirect()->route('dashboard')->with($this->permissionDenied());
         }
-
-        return view('faq.index', compact('faqs'));
     }
 
     public function create()
