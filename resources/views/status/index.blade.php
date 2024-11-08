@@ -18,6 +18,7 @@
                                 <th scope="col" class="p-4 font-semibold">Age (months)</th>
                                 <th scope="col" class="p-4 font-semibold">Height (cm)</th>
                                 <th scope="col" class="p-4 font-semibold">City</th>
+                                <th scope="col" class="p-4 font-semibold">District</th>
                                 <th scope="col" class="p-4 font-semibold">Status</th>
                             </tr>
                         </thead>
@@ -44,6 +45,9 @@
                                     </td>
                                     <td class="p-4">
                                         <h3 class="font-medium">{{ $result->city->name }}</h3>
+                                    </td>
+                                    <td class="p-4">
+                                        <h3 class="font-medium">{{ $result->district_name }}</h3>
                                     </td>
                                     <td class="p-4">
                                         <span

@@ -152,6 +152,7 @@
                                     <th scope="col" class="p-4 font-semibold">Age (months)</th>
                                     <th scope="col" class="p-4 font-semibold">Height (cm)</th>
                                     <th scope="col" class="p-4 font-semibold">City</th>
+                                    <th scope="col" class="p-4 font-semibold">District</th>
                                     <th scope="col" class="p-4 font-semibold">Status</th>
                                 </tr>
                             </thead>
@@ -161,7 +162,6 @@
                                         <td class="p-4 text-sm">
                                             <div class="flex gap-6 items-center">
                                                 <div class="h-12 w-12 inline-block">
-                                                    <!-- Ganti gambar berdasarkan gender -->
                                                     <img src="{{ $result->gender == 'perempuan' ? asset('./assets/images/profile/user-4.jpg') : asset('./assets/images/profile/user-3.jpg') }}"
                                                         alt="" class="rounded-full w-100">
                                                 </div>
@@ -178,6 +178,9 @@
                                         </td>
                                         <td class="p-4">
                                             <h3 class="font-medium">{{ $result->city->name }}</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $result->district_name }}</h3>
                                         </td>
                                         <td class="p-4">
                                             <span
@@ -200,9 +203,8 @@
                             </tbody>
                         </table>
                     </div>
-                    <!-- Pagination links -->
                     <div class="mt-4">
-                        {{ $stuntingResults->links() }} <!-- Menampilkan link pagination -->
+                        {{ $stuntingResults->links() }}
                     </div>
                 </div>
             </div>
@@ -384,7 +386,7 @@
                 strokeDashArray: 3,
                 borderColor: "rgba(0,0,0,.1)",
             },
-            colors: ["#1e88e5", "#21c1d6", "#ff5722", "#e91e63"], // Ganti warna sesuai kategori
+            colors: ["#1e88e5", "#21c1d6", "#ff5722", "#e91e63"],
             plotOptions: {
                 bar: {
                     horizontal: false,
@@ -402,7 +404,7 @@
             },
             xaxis: {
                 type: "category",
-                categories: @json($dates), // Menggunakan tanggal yang diambil
+                categories: @json($dates),
                 axisTicks: {
                     show: false,
                 },
@@ -424,7 +426,7 @@
             },
             fill: {
                 opacity: 1,
-                colors: ["#0085db", "#fb977d", "#ff5722", "#e91e63"], // Ganti warna sesuai kategori
+                colors: ["#0085db", "#fb977d", "#ff5722", "#e91e63"],
             },
             tooltip: {
                 theme: "dark",
