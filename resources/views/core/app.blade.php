@@ -39,8 +39,63 @@
             $('#city').select2({
                 placeholder: "Pilih Kota",
                 allowClear: true
-            })
+            });
 
+            $('#district').select2({
+                placeholder: "Pilih Kecamatan",
+                allowClear: true
+            });
+
+            $('#city').on('change', function() {
+                var cityValue = $(this).val();
+                if (cityValue) {
+                    var cityData = cityValue.split(':');
+                    var cityCode = cityData[1];
+
+                    $.ajax({
+                        url: '/api/province/' + cityCode + '/districts',
+                        type: 'GET',
+                        success: function(data) {
+                            var districtSelect = $('#district');
+                            districtSelect.empty();
+                            districtSelect.append('<option value="">Pilih Kecamatan</option>');
+                            $.each(data, function(id, name) {
+                                districtSelect.append('<option value="' + name + '">' +
+                                    name + '</option>');
+                            });
+                        },
+                        error: function(xhr, status, error) {
+                            console.log(error);
+                        }
+                    });
+                } else {
+                    $('#district').empty().append('<option value="">Pilih Kecamatan</option>');
+                }
+            });
+
+
+            $('#kalkulatorForm').submit(function(e) {
+                e.preventDefault();
+                var districtName = $('#district option:selected')
+                    .val();
+
+                if (districtName) {
+
+                    $('input[name="district_name"]').remove();
+
+
+                    $('<input>').attr({
+                        type: 'hidden',
+                        name: 'district_name',
+                        value: districtName
+                    }).appendTo('#kalkulatorForm');
+
+                    console.log("District Name:", districtName);
+                    this.submit();
+                } else {
+                    alert("Pilih Kecamatan terlebih dahulu!");
+                }
+            });
         });
     </script>
 
@@ -54,15 +109,15 @@
                 width: 600,
                 padding: '3em',
                 color: '#ffffff',
-                background: '#f0fff4 url(/images/bg_balita.jpg)', // Background lebih cerah
+                background: '#f0fff4 url(/images/bg_balita.jpg)',
                 backdrop: `
                 rgba(144, 238, 144, 0.5)
                 url("/images/balitaku.gif")
                 center top
                 no-repeat
             `,
-                confirmButtonColor: '#E4E0E1', // Ubah warna tombol menjadi putih
-                confirmButtonText: 'OK' // Teks tombol
+                confirmButtonColor: '#E4E0E1',
+                confirmButtonText: 'OK'
             });
         </script>
     @endif
@@ -74,7 +129,7 @@
                 title: 'Pesan Terkirim',
                 text: "{{ session('contact_message') }}",
                 confirmButtonText: 'OK',
-                confirmButtonColor: '#28a745' // Warna hijau
+                confirmButtonColor: '#28a745'
             });
         </script>
     @endif

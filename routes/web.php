@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\MessageController;
+use Laravolt\Indonesia\Models\District;
 
 
 Route::get('/', [LandingController::class, 'index'])->name('home');
@@ -55,6 +56,13 @@ Route::get('/api/province/{id}/cities', function ($id) {
     $cities = City::where('province_id', $id)->pluck('name', 'id');
     return response()->json($cities);
 });
+
+Route::get('/api/province/{code}/districts', function ($code) {
+    $districts = District::where('city_code', $code)->pluck('name', 'id');
+    return response()->json($districts);
+});
+
+
 
 
 require __DIR__ . '/auth.php';

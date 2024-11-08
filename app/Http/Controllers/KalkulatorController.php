@@ -33,17 +33,20 @@ class KalkulatorController extends Controller
 
     public function store(Request $request)
     {
-        // Validasi data input dari request
+
         $validated = $request->validate([
             'gender' => 'required',
             'age' => 'required|numeric|min:0|max:60',
             'height' => 'required',
-            'city_id' => 'required|exists:indonesia_cities,id',
+            'city_id' => 'required',
+            'district_name' => 'required',
         ]);
+
+        list($cityId, $cityCode) = explode(':', $validated['city_id']);
 
         $genderNumeric = $validated['gender'] === 'laki-laki' ? 0 : 1;
 
-        // Kirim data ke API Python untuk prediksi
+
         $client = new Client();
         $response = $client->post('http://127.0.0.1:5000/predict', [
             'json' => [
@@ -53,17 +56,18 @@ class KalkulatorController extends Controller
             ]
         ]);
 
-        // Mendapatkan hasil prediksi dari Flask API
+
         $prediction = json_decode($response->getBody(), true);
         $predictionResult = $prediction['stunting_status'];
 
 
-        // Simpan hasil prediksi ke database
+
         StuntingResult::create([
             'gender' => $validated['gender'],
             'age' => $validated['age'],
             'height' => $validated['height'],
-            'city_id' => $validated['city_id'],
+            'city_id' => $cityId,
+            'district_name' => $validated['district_name'],
             'prediction_result' => $predictionResult,
         ]);
 

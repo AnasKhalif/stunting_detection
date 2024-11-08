@@ -17,6 +17,7 @@ class StuntingResult extends Model
         'age',
         'height',
         'city_id',
+        'district_name',
         'prediction_result',
     ];
 
