@@ -25,11 +25,10 @@ class ArticleController extends Controller
 
         if ($user->hasRole('superadmin') || $user->isAbleTo('articles-read')) {
             $articles = Article::paginate(10);
+            return view('article.index', compact('articles'));
         } else {
-            $articles = Article::where('user_id', $user->id)->paginate(10);
+            return redirect()->route('dashboard')->with($this->permissionDenied());
         }
-
-        return view('article.index', compact('articles'));
     }
 
     /**
