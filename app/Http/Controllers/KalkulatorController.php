@@ -62,7 +62,7 @@ class KalkulatorController extends Controller
 
 
 
-        StuntingResult::create([
+        $stuntingResult = StuntingResult::create([
             'gender' => $validated['gender'],
             'age' => $validated['age'],
             'height' => $validated['height'],
@@ -72,7 +72,59 @@ class KalkulatorController extends Controller
         ]);
 
 
-        return redirect()->back()->with('message', 'Hasil Prediksi: ' . $predictionResult);
+        // return redirect()->back()->with('message', 'Hasil Prediksi: ' . $predictionResult);
+        $advice = $this->getAdviceBasedOnStatus($predictionResult);
+
+        return view('users.prediction_result', [
+            'status' => $predictionResult,
+            'advice' => $advice,
+            'result' => $stuntingResult,
+        ]);
+    }
+
+    private function getAdviceBasedOnStatus($status)
+    {
+        switch ($status) {
+            case 'severely stunted':
+                return [
+                    'message' => 'Anak sangat pendek. Segera rujuk ke rumah sakit untuk pemeriksaan lebih lanjut.',
+                    'steps' => [
+                        'Segera rujuk ke rumah sakit untuk evaluasi dan penanganan lebih lanjut.',
+                        'Lakukan pemeriksaan mendalam untuk mendeteksi penyebab (misalnya, penyakit penyerta atau red flags).',
+                        'Berikan intervensi gizi pediatrik segera.',
+                    ],
+                ];
+            case 'stunted':
+                return [
+                    'message' => 'Anak memiliki pertumbuhan pendek. Perhatikan asupan gizi dan konsultasi lebih lanjut.',
+                    'steps' => [
+                        'Evaluasi parameter status gizi lainnya (berat badan dan indeks massa tubuh).',
+                        'Berikan intervensi gizi standar serta stimulasi sesuai umur.',
+                        'Rujuk jika tidak ada perubahan dalam waktu yang ditentukan.',
+                    ],
+                ];
+            case 'normal':
+                return [
+                    'message' => 'Pertumbuhan anak normal. Lanjutkan pemantauan rutin.',
+                    'steps' => [
+                        'Lanjutkan stimulasi dan pola makan yang seimbang sesuai tahapan umur.',
+                        'Jadwalkan kunjungan berikutnya untuk pemantauan rutin.',
+                    ],
+                ];
+            case 'tinggi':
+                return [
+                    'message' => 'Pertumbuhan anak tinggi. Pastikan tidak ada masalah medis.',
+                    'steps' => [
+                        'Lakukan pemeriksaan jika diperlukan.',
+                        'Pantau pola pertumbuhan secara berkala.',
+                    ],
+                ];
+            default:
+                return [
+                    'message' => 'Status tidak diketahui.',
+                    'steps' => [],
+                ];
+        }
     }
 
 
