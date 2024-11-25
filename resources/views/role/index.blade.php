@@ -9,8 +9,9 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header flex justify-between items-center">
-                        <a href="{{ route('admin.role.create') }}" class="btn btn-sm btn-secondary ml-5 mt-5">Create</a>
+                    <div class="card-header flex justify-between items-center ml-5">
+                        <h2 class="text-lg font-semibold">Add Role</h2>
+                        <a href="{{ route('admin.role.create') }}" class="btn btn-sm btn-secondary mr-5 mt-5">Create</a>
                     </div>
 
                     <div class="card-body">
