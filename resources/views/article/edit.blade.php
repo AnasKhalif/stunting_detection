@@ -36,7 +36,7 @@
 
                             <div class="mb-6">
                                 <label for="body" class="block text-sm mb-2 text-gray-400">{{ __('Body') }}</label>
-                                <textarea name="body" id="body" cols="30" rows="3" required autocomplete="body"
+                                <textarea name="body" id="body" cols="50" rows="30" required autocomplete="body"
                                     class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 @error('body') is-invalid @enderror">{{ $article->body }}</textarea>
                                 @error('body')
                                     <span class="invalid-feedback" role="alert">
