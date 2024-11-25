@@ -77,4 +77,22 @@
             </div>
         </div>
     </div>
+
+    <div class="mt-8">
+        <h4 class="text-gray-500 text-lg font-semibold mb-5">Report by City</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            @foreach ($reports as $report)
+                <div class="card p-5 bg-white shadow-sm rounded-lg">
+                    <h5 class="text-lg font-bold text-gray-700">{{ $report->city->name }}</h5>
+                    <ul class="mt-4 space-y-2 text-sm">
+                        <li><span class="font-semibold">Total Data:</span> {{ $report->total }}</li>
+                        <li><span class="font-semibold">Severely Stunted:</span> {{ $report->severely_stunted }}</li>
+                        <li><span class="font-semibold">Stunted:</span> {{ $report->stunted }}</li>
+                        <li><span class="font-semibold">Normal:</span> {{ $report->normal }}</li>
+                        <li><span class="font-semibold">Tinggi:</span> {{ $report->tinggi }}</li>
+                    </ul>
+                </div>
+            @endforeach
+        </div>
+    </div>
 @endsection

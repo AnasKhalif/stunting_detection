@@ -60,7 +60,7 @@ class KalkulatorController extends Controller
         $prediction = json_decode($response->getBody(), true);
         $predictionResult = $prediction['stunting_status'];
 
-
+        $city = City::find($cityId);
 
         $stuntingResult = StuntingResult::create([
             'gender' => $validated['gender'],
@@ -79,6 +79,8 @@ class KalkulatorController extends Controller
             'status' => $predictionResult,
             'advice' => $advice,
             'result' => $stuntingResult,
+            'city' => $city->name,
+            'district' => $validated['district_name'],
         ]);
     }
 

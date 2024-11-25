@@ -26,7 +26,18 @@ class StatusController extends Controller
                 ->orderBy('created_at', 'desc')
                 ->paginate(6);
 
-            return view('status.index', compact('stuntingResults'));
+            $reports = StuntingResult::selectRaw('city_id, 
+                COUNT(*) as total, 
+                SUM(CASE WHEN prediction_result = "severely stunted" THEN 1 ELSE 0 END) as severely_stunted, 
+                SUM(CASE WHEN prediction_result = "stunted" THEN 1 ELSE 0 END) as stunted, 
+                SUM(CASE WHEN prediction_result = "normal" THEN 1 ELSE 0 END) as normal, 
+                SUM(CASE WHEN prediction_result = "tinggi" THEN 1 ELSE 0 END) as tinggi
+            ')
+                ->with('city')
+                ->groupBy('city_id')
+                ->get();
+
+            return view('status.index', compact('stuntingResults', 'reports'));
         } else {
             return redirect()->route('dashboard')->with($this->permissionDenied());
         }

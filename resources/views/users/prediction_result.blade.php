@@ -14,6 +14,10 @@
                     <h2 class="text-white text-5xl mb-4">Analisa Prediksi <br> Kesehatan</h2>
                     <p class="text-white">Hasil prediksi stunting berdasarkan data yang telah Anda masukkan : <br> <span
                             class="text-lg font-medium">{{ $status }}</span></p>
+                    <ul class="text-white mt-4">
+                        <li><strong>Kota:</strong> {{ $city }}</li>
+                        <li><strong>Kecamatan:</strong> {{ $district }}</li>
+                    </ul>
                 </div>
 
 
