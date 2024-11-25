@@ -9,7 +9,10 @@
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
-                    <div class="card-header text-lg font-semibold text-gray-500 ml-5 mt-4">{{ __('Permissions') }}</div>
+                    <div class="card-header flex justify-between items-center ml-5">
+                        <h2 class="text-lg font-semibold">Create Permisson</h2>
+                        <a href="{{ route('admin.permission.index') }}" class="btn btn-sm bg-green-500 mr-5 mt-5">Back</a>
+                    </div>
 
                     <div class="card-body flex flex-col gap-6">
                         <form method="POST" action="{{ route('admin.permission.store') }}">
