@@ -8,15 +8,15 @@
     <section
         class="relative flex mt-20 flex-col items-center justify-center w-full h-[20vh] lg:h-[30vh] text-white bg-cover bg-center after:bg-black after:w-full after:h-[20vh] after:absolute after:lg:h-[30vh] after:bg-opacity-45"
         style="background-image: url('/img/about-hero.jpg');">
-        <h1 class="font-extrabold text-2xl lg:text-3xl z-10">About</h1>
+        <h1 class="font-extrabold text-2xl lg:text-3xl z-10">Tentang Kami</h1>
         <span class="text-xs lg:text-sm z-10">
-            <b>Home > About</b>
+            <b>Home > Tentang Kami</b>
         </span>
     </section>
 
     <section class="flex flex-col justify-center items-center mt-8 mb-12 px-5 md:px-10">
         <div class="mx-auto mb-12 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
-            <h2 class="text-2xl font-bold text-center lg:text-xl">About Smart Growth</h2>
+            <h2 class="text-2xl font-bold text-center lg:text-xl">Tentang Smart Growth</h2>
         </div>
         <p class="text-neutral-600 text-sm text-center">Stunting Check adalah platform digital yang berkomitmen membantu
             orang tua dan pengasuh dalam memantau tumbuh kembang anak guna mencegah stunting. Kami menyediakan informasi
@@ -34,13 +34,13 @@
     <section class="my-10 mx-5 lg:mx-10 lg:py-20">
         <div class="flex flex-col lg:flex-row gap-5 lg:gap-20 align-middle items-center">
             <div class="w-full lg:w-1/2">
-                <h1 class="font-bold text-2xl">Our Vision</h1>
+                <h1 class="font-bold text-2xl">Visi Kami</h1>
                 <p class="text-sm text-neutral-600 ">
                     Kami memiliki visi untuk menjadi platform terpercaya dalam mendukung upaya pencegahan dan penanganan
                     stunting di Indonesia. Dengan menyediakan informasi dan edukasi yang akurat serta mudah diakses oleh
                     masyarakat, kami berharap dapat membantu memastikan tumbuh kembang anak-anak Indonesia yang optimal,
                     sehat, dan berkualitas.</p>
-                <h1 class="font-bold text-2xl text-end mt-5">Our Mission</h1>
+                <h1 class="font-bold text-2xl text-end mt-5">Misi Kami</h1>
                 <p class="text-sm text-end text-neutral-600 ">
                     Kami berkomitmen untuk meningkatkan kesadaran masyarakat tentang stunting melalui edukasi yang mudah
                     dipahami dan alat pemantauan yang praktis. Dengan bekerja sama dengan para ahli, kami menyediakan
@@ -61,7 +61,7 @@
         <div class="flex flex-col gap-6">
             <div
                 class="mx-auto mb-4 py-2 px-6 rounded-tl-2xl rounded-br-2xl shadow-shadow-card bg-green-800 text-white w-fit">
-                <h2 class="text-2xl font-bold text-center lg:text-xl">Why Choose Us</h2>
+                <h2 class="text-2xl font-bold text-center lg:text-xl">Kenapa SmartGrowth</h2>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
                 <div

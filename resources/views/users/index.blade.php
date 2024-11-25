@@ -143,7 +143,9 @@
 
     <section class="w-full bg-white py-20">
         <div class="mx-auto flex flex-col items-center gap-6 w-full px-4 lg:px-10">
-            <h2 class="text-2xl font-bold text-center"><span class="text-green-700">FAQ</span> - Frequently Asked Questions
+            <h2 class="text-2xl font-bold text-center"><span class="text-green-700">Pertanyaan Umum</span> - Pertanyaan yang
+                Sering
+                Diajukan
             </h2>
             <div class="w-full space-y-2">
                 @foreach ($faqs as $faq)

@@ -20,7 +20,7 @@
             </a>
             <a href="/about"
                 class="flex justify-center items-center border-b font-medium text-sm w-full h-full duration-500 ease-out px-5 {{ request()->is('about') ? 'border-b-2 border-green-700 text-green-700' : 'border-transparent text-neutral-600' }}">
-                About
+                Tentang
             </a>
             <a href="{{ route('kalkulator.create') }}"
                 class="flex justify-center items-center border-b font-medium text-sm w-full h-full duration-500 ease-out px-5 {{ request()->is('kalkulator') ? 'border-b-2 border-green-700 text-green-700' : 'border-transparent text-neutral-600' }}">
@@ -40,7 +40,7 @@
         <div class="hidden lg:flex items-center align-middle gap-x-4">
             <a href="{{ route('login') }}"
                 class="flex items-center align-middle px-8 h-10 text-xs rounded-full bg-green-700 hover:bg-green-800 text-white font-semibold">
-                Sign In
+                Login
             </a>
         </div>
     </div>
@@ -51,16 +51,17 @@
             <a href="{{ route('home') }}"
                 class="text-neutral-600 font-medium text-sm {{ request()->is('/') ? 'text-green-700' : '' }}">Home</a>
             <a href="/about"
-                class="text-neutral-600 font-medium text-sm {{ request()->is('about') ? 'text-green-700' : '' }}">About</a>
+                class="text-neutral-600 font-medium text-sm {{ request()->is('about') ? 'text-green-700' : '' }}">Tentang
+            </a>
             <a href="{{ route('kalkulator.create') }}"
-                class="text-neutral-600 font-medium text-sm {{ request()->is('kalkulator.create') ? 'text-green-700' : '' }}">Kalculator</a>
+                class="text-neutral-600 font-medium text-sm {{ request()->is('kalkulator.create') ? 'text-green-700' : '' }}">Kalkulator</a>
             <a href="{{ route('artikel') }}"
                 class="text-neutral-600 font-medium text-sm {{ request()->is('artikel') ? 'text-green-700' : '' }}">Artikel</a>
             <a href="{{ route('kontak') }}"
                 class="text-neutral-600 font-medium text-sm {{ request()->is('kontak') ? 'text-green-700' : '' }}">Kontak</a>
             <a href="{{ route('login') }}"
                 class="text-neutral-600 font-medium text-sm bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-full">
-                Sign In
+                Login
             </a>
         </nav>
     </div>

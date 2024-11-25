@@ -17,18 +17,18 @@
         </div>
 
         <div class="flex flex-col">
-            <h3 class="text-lg font-bold mb-4">Quick Links</h3>
+            <h3 class="text-lg font-bold mb-4">Tautan Cepat</h3>
             <ul class="space-y-2 text-neutral-500">
                 <li><a href="/" class="hover:text-green-800">Home</a></li>
-                <li><a href="/about" class="hover:text-green-800">About Us</a></li>
-                <li><a href="/kalkulator" class="hover:text-green-800">Stunting Calculator</a></li>
-                <li><a href="#" class="hover:text-green-800">Contact</a></li>
+                <li><a href="/about" class="hover:text-green-800">Tentang</a></li>
+                <li><a href="/kalkulator" class="hover:text-green-800">Stunting Kalkulator</a></li>
+                <li><a href="#" class="hover:text-green-800">Kontak</a></li>
             </ul>
         </div>
 
         <!-- Contact Info -->
         <div class="flex flex-col">
-            <h3 class="text-lg font-bold mb-4">Contact Us</h3>
+            <h3 class="text-lg font-bold mb-4">Kontak Kami</h3>
             <ul class="space-y-2 text-sm text-neutral-500 hover:cursor-pointer">
                 <p class="hover:text-green-800 duration-500">Email: info@stuntingcheck.com</p>
                 <p class="hover:text-green-800 duration-500">Phone: +62 812 3456 7890</p>
