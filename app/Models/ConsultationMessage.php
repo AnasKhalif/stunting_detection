@@ -14,6 +14,7 @@ class ConsultationMessage extends Model
         'sender_id',
         'message',
         'attachment',
+        'is_read',
     ];
 
     public function consultation()

@@ -131,6 +131,7 @@ class AuthController extends Controller
     private function transformUser(User $user): array
     {
         return [
+            'id' => $user->id,
             'uid' => $user->uid,
             'name' => $user->name,
             'email' => $user->email,
