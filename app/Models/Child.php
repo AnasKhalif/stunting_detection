@@ -11,6 +11,7 @@ class Child extends Model
 
     protected $fillable = [
         'user_id',
+        'uuid',
         'name',
         'gender',
         'date_of_birth',
@@ -18,6 +19,13 @@ class Child extends Model
         'birth_height',
         'photo',
     ];
+
+    protected static function booted(): void
+    {
+        static::creating(function ($child) {
+            $child->uuid = $child->uuid ?? \Illuminate\Support\Str::uuid();
+        });
+    }
 
     protected function casts(): array
     {

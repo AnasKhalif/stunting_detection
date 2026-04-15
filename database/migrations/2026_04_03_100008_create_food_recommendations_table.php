@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('name');
             $table->text('nutritional_info');
             $table->text('recipe')->nullable();
-            $table->enum('category', ['Normal', 'Berisiko', 'Stunting']);
+            $table->enum('category', ['umum', 'stunting', 'tinggi']);
             $table->string('image')->nullable();
             $table->timestamps();
         });

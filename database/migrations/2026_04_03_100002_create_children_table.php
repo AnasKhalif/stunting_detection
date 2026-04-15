@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
-            $table->enum('gender', ['male', 'female']);
+            $table->enum('gender', ['laki-laki', 'perempuan']);
             $table->date('date_of_birth');
             $table->decimal('birth_weight', 5, 2)->nullable()->comment('kg');
             $table->decimal('birth_height', 5, 2)->nullable()->comment('cm');

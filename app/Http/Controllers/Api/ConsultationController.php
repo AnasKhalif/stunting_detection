@@ -13,11 +13,17 @@ class ConsultationController extends Controller
     public function index(Request $request)
     {
         $user = Auth::user();
+        $authId = (int) $user->id;
+
         $query = Consultation::with([
             'parent:id,name,email',
             'healthWorker:id,name,email',
             'child:id,name',
-        ])->withCount('messages');
+        ])
+        ->withCount('messages')
+        ->withCount(['messages as unread_count' => function ($q) use ($authId) {
+            $q->where('sender_id', '!=', $authId)->where('is_read', false);
+        }]);
 
         // Filter by role: orang_tua sees only their own, dokter sees theirs
         if ($user->hasRole('orang_tua') || $user->hasRole('user')) {
@@ -160,6 +166,7 @@ class ConsultationController extends Controller
             'health_worker'    => $c->healthWorker ? ['id' => $c->healthWorker->id, 'name' => $c->healthWorker->name, 'email' => $c->healthWorker->email] : null,
             'child'            => $c->child ? ['id' => $c->child->id, 'name' => $c->child->name] : null,
             'messages_count'   => $c->messages_count ?? $c->messages()->count(),
+            'unread_count'     => (int) ($c->unread_count ?? 0),
             'latest_message'   => null,
             'created_at'       => $c->created_at,
             'updated_at'       => $c->updated_at,
