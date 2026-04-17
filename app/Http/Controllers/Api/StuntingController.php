@@ -143,6 +143,10 @@ class StuntingController extends Controller
 
     public function detect(Request $request)
     {
+        if (!$this->canCreateStunting()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk membuat deteksi stunting.'], 403);
+        }
+
         $request->validate([
             'child_id'         => 'required|exists:children,id',
             'height'           => 'required|numeric|min:30|max:150',
@@ -174,7 +178,7 @@ class StuntingController extends Controller
             'weight'           => $request->weight,
             'measurement_date' => $request->measurement_date,
             'z_score'          => $zScore,
-            'prediction_result'=> $predictionResult,
+            'prediction_result' => $predictionResult,
             'who_standard_ref' => json_encode($whoRef),
             'notes'            => $request->notes,
         ]);
@@ -197,7 +201,11 @@ class StuntingController extends Controller
 
     public function history(Request $request)
     {
-        $query = StuntingResult::where('user_id', Auth::id())
+        if (!$this->canReadStunting()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat riwayat stunting.'], 403);
+        }
+
+        $query = $this->historyQueryForCurrentUser()
             ->with('child:id,name,gender')
             ->latest('measurement_date');
 
@@ -205,14 +213,18 @@ class StuntingController extends Controller
             $query->where('child_id', $request->child_id);
         }
 
-        $results = $query->get()->map(fn($r) => $this->transformResult($r));
+        $results = $query->get()->map(fn ($r) => $this->transformResult($r));
 
         return response()->json(['data' => $results]);
     }
 
     public function show($id)
     {
-        $result = StuntingResult::where('user_id', Auth::id())
+        if (!$this->canReadStunting()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat riwayat stunting.'], 403);
+        }
+
+        $result = $this->historyQueryForCurrentUser()
             ->with('child:id,name,gender,date_of_birth')
             ->findOrFail($id);
 
@@ -558,10 +570,54 @@ class StuntingController extends Controller
             'weight'           => $r->weight,
             'measurement_date' => $r->measurement_date?->toDateString(),
             'z_score'          => $r->z_score,
-            'prediction_result'=> $r->prediction_result,
+            'prediction_result' => $r->prediction_result,
             'prediction_label' => $label[$r->prediction_result] ?? $r->prediction_result,
             'notes'            => $r->notes,
             'created_at'       => $r->created_at,
         ];
+    }
+
+    private function historyQueryForCurrentUser()
+    {
+        $query = StuntingResult::query();
+
+        if (!$this->canViewAllHistory()) {
+            $query->where('user_id', Auth::id());
+        }
+
+        return $query;
+    }
+
+    private function canViewAllHistory(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->hasRole(['admin', 'superadmin', 'dokter', 'health_worker']);
+    }
+
+    private function canReadStunting(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('stunting-read');
+    }
+
+    private function canCreateStunting(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('stunting-create');
     }
 }

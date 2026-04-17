@@ -11,16 +11,26 @@ class ChildController extends Controller
 {
     public function index()
     {
-        $children = Child::where('user_id', Auth::id())
+        if (!$this->canReadChildren()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat data anak.'], 403);
+        }
+
+        $children = $this->childrenQueryForCurrentUser()
             ->latest()
             ->get()
-            ->map(fn($c) => $this->transform($c));
+            ->map(fn ($c) => $this->transform($c));
 
         return response()->json(['data' => $children]);
     }
 
     public function store(Request $request)
     {
+        if (!$this->canCreateChildren()) {
+            return response()->json([
+                'message' => 'Role ini tidak diizinkan menambahkan data anak.',
+            ], 403);
+        }
+
         $request->validate([
             'name'          => 'required|string|max:255',
             'gender'        => 'required|in:laki-laki,perempuan',
@@ -43,13 +53,21 @@ class ChildController extends Controller
 
     public function show($uuid)
     {
-        $child = Child::where('user_id', Auth::id())->where('uuid', $uuid)->firstOrFail();
+        if (!$this->canReadChildren()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat data anak.'], 403);
+        }
+
+        $child = $this->childrenQueryForCurrentUser()->where('uuid', $uuid)->firstOrFail();
         return response()->json(['data' => $this->transform($child)]);
     }
 
     public function update(Request $request, $uuid)
     {
-        $child = Child::where('user_id', Auth::id())->where('uuid', $uuid)->firstOrFail();
+        if (!$this->canUpdateChildren()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk mengubah data anak.'], 403);
+        }
+
+        $child = $this->childrenQueryForCurrentUser()->where('uuid', $uuid)->firstOrFail();
 
         $request->validate([
             'name'          => 'sometimes|string|max:255',
@@ -66,9 +84,79 @@ class ChildController extends Controller
 
     public function destroy($uuid)
     {
-        $child = Child::where('user_id', Auth::id())->where('uuid', $uuid)->firstOrFail();
+        if (!$this->canDeleteChildren()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk menghapus data anak.'], 403);
+        }
+
+        $child = $this->childrenQueryForCurrentUser()->where('uuid', $uuid)->firstOrFail();
         $child->delete();
         return response()->json(['message' => 'Data anak berhasil dihapus']);
+    }
+
+    private function childrenQueryForCurrentUser()
+    {
+        $query = Child::query();
+
+        if (!$this->canManageAllChildren()) {
+            $query->where('user_id', Auth::id());
+        }
+
+        return $query;
+    }
+
+    private function canManageAllChildren(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->hasRole(['admin', 'superadmin', 'dokter', 'health_worker']);
+    }
+
+    private function canReadChildren(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('children-read');
+    }
+
+    private function canCreateChildren(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('children-create');
+    }
+
+    private function canUpdateChildren(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('children-update');
+    }
+
+    private function canDeleteChildren(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('children-delete');
     }
 
     private function transform(Child $c): array

@@ -111,7 +111,7 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Profil user berhasil diambil.',
-            'data' => $this->transformUser($user->loadMissing('roles')),
+            'data' => $this->transformUser($user->loadMissing('roles.permissions')),
         ]);
     }
 
@@ -130,6 +130,12 @@ class AuthController extends Controller
 
     private function transformUser(User $user): array
     {
+        $roles = $user->roles;
+        $role = $roles->firstWhere('name', 'superadmin') ?? $roles->first();
+        $permissions = $role
+            ? $role->permissions->pluck('name')->unique()->values()
+            : collect();
+
         return [
             'id' => $user->id,
             'uid' => $user->uid,
@@ -137,7 +143,13 @@ class AuthController extends Controller
             'email' => $user->email,
             'phone_number' => $user->phone_number,
             'address' => $user->address,
-            'role' => $user->roles->first()?->name,
+            'roles' => $roles->pluck('name')->values(),
+            'role' => $role ? [
+                'id' => $role->id,
+                'name' => $role->name,
+                'display_name' => $role->display_name,
+                'permissions' => $permissions,
+            ] : null,
             'email_verified_at' => $user->email_verified_at,
             'created_at' => $user->created_at,
             'updated_at' => $user->updated_at,

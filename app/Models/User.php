@@ -103,4 +103,23 @@ class User extends Authenticatable implements LaratrustUser
     {
         return $this->hasOne(HealthWorkerProfile::class);
     }
+
+    public function isSuperAdmin(): bool
+    {
+        if ($this->hasRole('superadmin')) {
+            return true;
+        }
+
+        return $this->roles->contains(function ($role) {
+            $name = self::normalizeRoleKey($role->name ?? '');
+            $displayName = self::normalizeRoleKey($role->display_name ?? '');
+
+            return $name === 'superadmin' || $displayName === 'superadmin';
+        });
+    }
+
+    private static function normalizeRoleKey(string $value): string
+    {
+        return preg_replace('/[^a-z0-9]+/', '', strtolower($value)) ?? '';
+    }
 }

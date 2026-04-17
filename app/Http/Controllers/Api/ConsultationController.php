@@ -12,6 +12,10 @@ class ConsultationController extends Controller
 {
     public function index(Request $request)
     {
+        if (!$this->canReadConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat konsultasi.'], 403);
+        }
+
         $user = Auth::user();
         $authId = (int) $user->id;
 
@@ -20,29 +24,33 @@ class ConsultationController extends Controller
             'healthWorker:id,name,email',
             'child:id,name',
         ])
-        ->withCount('messages')
-        ->withCount(['messages as unread_count' => function ($q) use ($authId) {
-            $q->where('sender_id', '!=', $authId)->where('is_read', false);
-        }]);
+            ->withCount('messages')
+            ->withCount(['messages as unread_count' => function ($q) use ($authId) {
+                $q->where('sender_id', '!=', $authId)->where('is_read', false);
+            }]);
 
-        // Filter by role: orang_tua sees only their own, dokter sees theirs
-        if ($user->hasRole('orang_tua') || $user->hasRole('user')) {
-            $query->where('parent_id', $user->id);
-        } elseif ($user->hasRole('dokter')) {
-            $query->where('health_worker_id', $user->id);
+        if (!$user->isSuperAdmin()) {
+            $query->where(function ($subQuery) use ($user) {
+                $subQuery->where('parent_id', $user->id)
+                    ->orWhere('health_worker_id', $user->id);
+            });
         }
 
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        $consultations = $query->latest()->get()->map(fn($c) => $this->transform($c));
+        $consultations = $query->latest()->get()->map(fn ($c) => $this->transform($c));
 
         return response()->json(['data' => $consultations]);
     }
 
     public function store(Request $request)
     {
+        if (!$this->canCreateConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk membuat konsultasi.'], 403);
+        }
+
         $request->validate([
             'health_worker_id' => 'required|exists:users,id',
             'child_id'         => 'nullable|exists:children,id',
@@ -51,7 +59,7 @@ class ConsultationController extends Controller
 
         $consultation = Consultation::create([
             'parent_id'       => Auth::id(),
-            'health_worker_id'=> $request->health_worker_id,
+            'health_worker_id' => $request->health_worker_id,
             'child_id'        => $request->child_id,
             'subject'         => $request->subject,
             'status'          => 'pending',
@@ -64,6 +72,10 @@ class ConsultationController extends Controller
 
     public function show($id)
     {
+        if (!$this->canReadConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat konsultasi.'], 403);
+        }
+
         $consultation = Consultation::with([
             'parent:id,name,email',
             'healthWorker:id,name,email',
@@ -71,16 +83,29 @@ class ConsultationController extends Controller
             'messages.sender:id,name',
         ])->findOrFail($id);
 
+        if (!$this->canAccessConsultation($consultation)) {
+            return response()->json(['message' => 'Tidak memiliki akses konsultasi ini.'], 403);
+        }
+
         return response()->json(['data' => $this->transform($consultation)]);
     }
 
     public function updateStatus(Request $request, $id)
     {
+        if (!$this->canUpdateConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk mengubah status konsultasi.'], 403);
+        }
+
         $request->validate([
             'status' => 'required|in:pending,ongoing,completed',
         ]);
 
         $consultation = Consultation::findOrFail($id);
+
+        if (!$this->canAccessConsultation($consultation)) {
+            return response()->json(['message' => 'Tidak memiliki akses konsultasi ini.'], 403);
+        }
+
         $consultation->update(['status' => $request->status]);
 
         return response()->json(['data' => $this->transform($consultation)]);
@@ -88,7 +113,15 @@ class ConsultationController extends Controller
 
     public function messages($id)
     {
+        if (!$this->canReadConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat pesan konsultasi.'], 403);
+        }
+
         $consultation = Consultation::findOrFail($id);
+
+        if (!$this->canAccessConsultation($consultation)) {
+            return response()->json(['message' => 'Tidak memiliki akses konsultasi ini.'], 403);
+        }
 
         $authId = (int) Auth::id();
         $parentId = (int) $consultation->parent_id;
@@ -111,19 +144,27 @@ class ConsultationController extends Controller
         }
 
         $messages = $consultation->messages()->with('sender:id,name')->oldest()->get()
-            ->map(fn($m) => $this->transformMessage($m));
+            ->map(fn ($m) => $this->transformMessage($m));
 
         return response()->json(['data' => $messages]);
     }
 
     public function sendMessage(Request $request, $id)
     {
+        if (!$this->canCreateConsultations()) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk mengirim pesan konsultasi.'], 403);
+        }
+
         $request->validate([
             'message'    => 'required|string',
             'attachment' => 'nullable|string',
         ]);
 
         $consultation = Consultation::findOrFail($id);
+
+        if (!$this->canAccessConsultation($consultation)) {
+            return response()->json(['message' => 'Tidak memiliki akses konsultasi ini.'], 403);
+        }
 
         $msg = ConsultationMessage::create([
             'consultation_id' => $consultation->id,
@@ -171,5 +212,54 @@ class ConsultationController extends Controller
             'created_at'       => $c->created_at,
             'updated_at'       => $c->updated_at,
         ];
+    }
+
+    private function canReadConsultations(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('consultations-read');
+    }
+
+    private function canCreateConsultations(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('consultations-create');
+    }
+
+    private function canUpdateConsultations(): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo('consultations-update');
+    }
+
+    private function canAccessConsultation(Consultation $consultation): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        return (int) $consultation->parent_id === (int) $user->id
+            || (int) $consultation->health_worker_id === (int) $user->id;
     }
 }

@@ -14,7 +14,11 @@ class UserController extends Controller
 {
     public function index(Request $request): JsonResponse
     {
-        $query = User::with('roles');
+        if (!$this->canAccess($request->user(), 'users-read')) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat pengguna.'], 403);
+        }
+
+        $query = User::with('roles.permissions');
 
         if ($search = $request->input('search')) {
             $query->where(function ($q) use ($search) {
@@ -43,6 +47,10 @@ class UserController extends Controller
 
     public function store(Request $request): JsonResponse
     {
+        if (!$this->canAccess($request->user(), 'users-create')) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk membuat pengguna.'], 403);
+        }
+
         $validated = $request->validate([
             'name'         => ['required', 'string', 'max:255'],
             'email'        => ['required', 'email', 'unique:users,email'],
@@ -73,16 +81,24 @@ class UserController extends Controller
         ], 201);
     }
 
-    public function show(User $user): JsonResponse
+    public function show(Request $request, User $user): JsonResponse
     {
+        if (!$this->canAccess($request->user(), 'users-read')) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk melihat pengguna.'], 403);
+        }
+
         return response()->json([
             'message' => 'Data pengguna berhasil diambil.',
-            'data'    => $this->transformUser($user->loadMissing('roles')),
+            'data'    => $this->transformUser($user->loadMissing('roles.permissions')),
         ]);
     }
 
     public function update(Request $request, User $user): JsonResponse
     {
+        if (!$this->canAccess($request->user(), 'users-update')) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk memperbarui pengguna.'], 403);
+        }
+
         $validated = $request->validate([
             'name'         => ['sometimes', 'string', 'max:255'],
             'email'        => ['sometimes', 'email', 'unique:users,email,' . $user->id],
@@ -117,8 +133,12 @@ class UserController extends Controller
         ]);
     }
 
-    public function destroy(User $user): JsonResponse
+    public function destroy(Request $request, User $user): JsonResponse
     {
+        if (!$this->canAccess($request->user(), 'users-delete')) {
+            return response()->json(['message' => 'Tidak memiliki akses untuk menghapus pengguna.'], 403);
+        }
+
         $user->delete();
 
         return response()->json([
@@ -129,6 +149,12 @@ class UserController extends Controller
 
     private function transformUser(User $user): array
     {
+        $roles = $user->roles;
+        $role = $roles->firstWhere('name', 'superadmin') ?? $roles->first();
+        $permissions = $role
+            ? $role->permissions->pluck('name')->unique()->values()
+            : collect();
+
         return [
             'id'           => $user->id,
             'uid'          => $user->uid,
@@ -136,9 +162,24 @@ class UserController extends Controller
             'email'        => $user->email,
             'phone_number' => $user->phone_number,
             'address'      => $user->address,
-            'role'         => $user->roles->first()?->name,
+            'roles'        => $roles->pluck('name')->values(),
+            'role'         => $role ? [
+                'id' => $role->id,
+                'name' => $role->name,
+                'display_name' => $role->display_name,
+                'permissions' => $permissions,
+            ] : null,
             'created_at'   => $user->created_at,
             'updated_at'   => $user->updated_at,
         ];
+    }
+
+    private function canAccess(?User $user, string $permission): bool
+    {
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo($permission);
     }
 }

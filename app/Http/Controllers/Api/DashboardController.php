@@ -7,12 +7,17 @@ use App\Models\Child;
 use App\Models\Consultation;
 use App\Models\StuntingResult;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
 
 class DashboardController extends Controller
 {
     // Dashboard untuk orang tua
-    public function parent()
+    public function parent(): JsonResponse
     {
+        if (!$this->canAccess('dashboard-read')) {
+            return response()->json(['message' => 'Tidak memiliki akses dashboard.'], 403);
+        }
+
         $userId = Auth::id();
 
         $children = Child::where('user_id', $userId)->get();
@@ -25,11 +30,11 @@ class DashboardController extends Controller
             ->latest('measurement_date')
             ->take(5)
             ->get()
-            ->map(fn($r) => [
+            ->map(fn ($r) => [
                 'id'               => $r->id,
                 'child_name'       => $r->child?->name ?? '-',
                 'measurement_date' => $r->measurement_date?->toDateString(),
-                'prediction_result'=> $r->prediction_result,
+                'prediction_result' => $r->prediction_result,
                 'prediction_label' => $this->statusLabel($r->prediction_result),
                 'z_score'          => $r->z_score,
                 'height'           => $r->height,
@@ -74,21 +79,25 @@ class DashboardController extends Controller
     }
 
     // Dashboard untuk dokter
-    public function doctor()
+    public function doctor(): JsonResponse
     {
+        if (!$this->canAccess('dashboard-read')) {
+            return response()->json(['message' => 'Tidak memiliki akses dashboard.'], 403);
+        }
+
         $userId = Auth::id();
 
         $totalConsultations   = Consultation::where('health_worker_id', $userId)->count();
         $pendingConsultations  = Consultation::where('health_worker_id', $userId)->where('status', 'pending')->count();
         $ongoingConsultations  = Consultation::where('health_worker_id', $userId)->where('status', 'ongoing')->count();
-        $completedConsultations= Consultation::where('health_worker_id', $userId)->where('status', 'completed')->count();
+        $completedConsultations = Consultation::where('health_worker_id', $userId)->where('status', 'completed')->count();
 
         $recentConsultations = Consultation::where('health_worker_id', $userId)
             ->with('parent:id,name,email')
             ->latest()
             ->take(5)
             ->get()
-            ->map(fn($c) => [
+            ->map(fn ($c) => [
                 'id'          => $c->id,
                 'parent_name' => $c->parent?->name ?? '-',
                 'subject'     => $c->subject,
@@ -106,7 +115,7 @@ class DashboardController extends Controller
                 'total_consultations'    => $totalConsultations,
                 'pending_consultations'  => $pendingConsultations,
                 'ongoing_consultations'  => $ongoingConsultations,
-                'completed_consultations'=> $completedConsultations,
+                'completed_consultations' => $completedConsultations,
                 'total_patients'         => $totalPatients,
                 'recent_consultations'   => $recentConsultations,
             ],
@@ -114,8 +123,12 @@ class DashboardController extends Controller
     }
 
     // Dashboard untuk admin/superadmin
-    public function admin()
+    public function admin(): JsonResponse
     {
+        if (!$this->canAccess('dashboard-read')) {
+            return response()->json(['message' => 'Tidak memiliki akses dashboard.'], 403);
+        }
+
         $totalUsers         = \App\Models\User::count();
         $totalChildren      = Child::count();
         $totalDetections    = StuntingResult::count();
@@ -145,12 +158,23 @@ class DashboardController extends Controller
 
     private function statusLabel(?string $status): string
     {
-        return match($status) {
+        return match ($status) {
             'severely stunted' => 'Sangat Pendek',
             'stunted'          => 'Pendek',
             'normal'           => 'Normal',
             'tinggi'           => 'Tinggi',
             default            => '-',
         };
+    }
+
+    private function canAccess(string $permission): bool
+    {
+        $user = Auth::user();
+
+        if (!$user) {
+            return false;
+        }
+
+        return $user->isSuperAdmin() || $user->isAbleTo($permission);
     }
 }
