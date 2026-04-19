@@ -607,7 +607,7 @@ class StuntingController extends Controller
             return false;
         }
 
-        return $user->isSuperAdmin() || $user->isAbleTo('stunting-read');
+        return $user->isSuperAdmin() || $user->hasRole('admin') || $user->isAbleTo('stunting-read');
     }
 
     private function canCreateStunting(): bool

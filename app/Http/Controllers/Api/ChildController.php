@@ -16,6 +16,7 @@ class ChildController extends Controller
         }
 
         $children = $this->childrenQueryForCurrentUser()
+            ->with('parent:id,name,email')
             ->latest()
             ->get()
             ->map(fn ($c) => $this->transform($c));
@@ -57,7 +58,10 @@ class ChildController extends Controller
             return response()->json(['message' => 'Tidak memiliki akses untuk melihat data anak.'], 403);
         }
 
-        $child = $this->childrenQueryForCurrentUser()->where('uuid', $uuid)->firstOrFail();
+        $child = $this->childrenQueryForCurrentUser()
+            ->with('parent:id,name,email')
+            ->where('uuid', $uuid)
+            ->firstOrFail();
         return response()->json(['data' => $this->transform($child)]);
     }
 
@@ -79,7 +83,7 @@ class ChildController extends Controller
 
         $child->update($request->only(['name', 'gender', 'date_of_birth', 'birth_weight', 'birth_height']));
 
-        return response()->json(['data' => $this->transform($child->fresh())]);
+        return response()->json(['data' => $this->transform($child->fresh(['parent:id,name,email']))]);
     }
 
     public function destroy($uuid)
@@ -172,6 +176,11 @@ class ChildController extends Controller
             'birth_height'   => $c->birth_height,
             'age_in_months'  => $c->age_in_months,
             'photo'          => $c->photo,
+            'parent'         => $c->parent ? [
+                'id'    => $c->parent->id,
+                'name'  => $c->parent->name,
+                'email' => $c->parent->email,
+            ] : null,
             'created_at'     => $c->created_at,
         ];
     }

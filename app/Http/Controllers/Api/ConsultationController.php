@@ -29,7 +29,7 @@ class ConsultationController extends Controller
                 $q->where('sender_id', '!=', $authId)->where('is_read', false);
             }]);
 
-        if (!$user->isSuperAdmin()) {
+        if (!$user->isSuperAdmin() && !$user->hasRole('admin')) {
             $query->where(function ($subQuery) use ($user) {
                 $subQuery->where('parent_id', $user->id)
                     ->orWhere('health_worker_id', $user->id);
@@ -222,7 +222,7 @@ class ConsultationController extends Controller
             return false;
         }
 
-        return $user->isSuperAdmin() || $user->isAbleTo('consultations-read');
+        return $user->isSuperAdmin() || $user->hasRole('admin') || $user->isAbleTo('consultations-read');
     }
 
     private function canCreateConsultations(): bool
