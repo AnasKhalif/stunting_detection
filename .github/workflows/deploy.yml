@@ -1,0 +1,36 @@
+name: Deploy Laravel API
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: deploy-laravel
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy Laravel to VPS
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: ${{ secrets.VPS_PORT || 22 }}
+          script: |
+            set -e
+            cd /opt/stunting-detection/stunting_detection
+            git pull origin main
+            cd /opt/stunting-detection
+            docker compose build --no-cache laravel
+            docker compose up -d laravel
+            # Post-deploy Laravel tasks
+            docker compose exec -T laravel php artisan config:cache
+            docker compose exec -T laravel php artisan route:cache
+            docker compose exec -T laravel php artisan view:cache
+            docker compose exec -T laravel php artisan migrate --force
+            echo "Laravel API updated!"
