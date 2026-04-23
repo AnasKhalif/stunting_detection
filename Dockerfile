@@ -1,16 +1,12 @@
 FROM php:8.2-fpm-alpine
 
-# Install system dependencies via apk (Alpine — no apt needed)
-RUN apk add --no-cache \
-    git \
-    curl \
-    libpng-dev \
-    oniguruma-dev \
-    libxml2-dev \
-    libzip-dev \
-    zip \
-    unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+# install-php-extensions is much faster than compiling from source
+ADD https://github.com/mlocati/docker-php-extension-installer/releases/latest/download/install-php-extensions /usr/local/bin/
+RUN chmod +x /usr/local/bin/install-php-extensions && \
+    install-php-extensions pdo_mysql mbstring exif pcntl bcmath gd zip
+
+# Install git, curl, unzip via apk
+RUN apk add --no-cache git curl unzip
 
 # Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
