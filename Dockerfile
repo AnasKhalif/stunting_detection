@@ -1,17 +1,16 @@
-FROM php:8.2-fpm-bullseye
+FROM php:8.2-fpm-alpine
 
-# Install system dependencies
-RUN apt-get update --fix-missing && apt-get install -y \
+# Install system dependencies via apk (Alpine — no apt needed)
+RUN apk add --no-cache \
     git \
     curl \
     libpng-dev \
-    libonig-dev \
+    oniguruma-dev \
     libxml2-dev \
     libzip-dev \
     zip \
     unzip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install Composer
 COPY --from=composer:2.7 /usr/bin/composer /usr/bin/composer
