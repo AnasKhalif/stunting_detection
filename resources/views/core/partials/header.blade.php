@@ -38,7 +38,7 @@
 
         <!-- Sign In Button -->
         <div class="hidden lg:flex items-center align-middle gap-x-4">
-            <a href="http://localhost:5173/auth/login"
+            <a href="{{ env('REACT_APP_URL', 'http://localhost:5173') }}/auth/login"
                 class="flex items-center align-middle px-8 h-10 text-xs rounded-full bg-green-700 hover:bg-green-800 text-white font-semibold">
                 Login
             </a>
@@ -59,7 +59,7 @@
                 class="text-neutral-600 font-medium text-sm {{ request()->is('artikel') ? 'text-green-700' : '' }}">Artikel</a>
             <a href="{{ route('kontak') }}"
                 class="text-neutral-600 font-medium text-sm {{ request()->is('kontak') ? 'text-green-700' : '' }}">Kontak</a>
-            <a href="http://localhost:5173/auth/login"
+            <a href="{{ env('REACT_APP_URL', 'http://localhost:5173') }}/auth/login"
                 class="text-neutral-600 font-medium text-sm bg-green-700 hover:bg-green-800 text-white px-4 py-2 rounded-full">
                 Login
             </a>
