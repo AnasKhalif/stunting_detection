@@ -77,6 +77,136 @@ class StuntingController extends Controller
         60 => [98.6, 103.1, 107.7, 112.3, 116.9, 121.5, 126.1],
     ];
 
+    // WHO Weight-for-Age Z-score reference (BB/U) — SD values per month (kg)
+    // [month => [SD3neg, SD2neg, SD1neg, median, SD1, SD2, SD3]]
+    private const WHO_WFA_BOYS = [
+        0  => [2.1, 2.5, 2.9, 3.3, 3.9, 4.4, 5.0],
+        1  => [2.9, 3.4, 3.9, 4.5, 5.1, 5.8, 6.6],
+        2  => [3.8, 4.3, 4.9, 5.6, 6.3, 7.1, 8.0],
+        3  => [4.4, 5.0, 5.7, 6.4, 7.2, 8.0, 9.0],
+        4  => [4.9, 5.6, 6.2, 7.0, 7.8, 8.7, 9.7],
+        5  => [5.3, 6.0, 6.7, 7.5, 8.4, 9.3, 10.4],
+        6  => [5.7, 6.4, 7.1, 7.9, 8.8, 9.8, 10.9],
+        7  => [5.9, 6.7, 7.4, 8.3, 9.2, 10.3, 11.4],
+        8  => [6.2, 6.9, 7.7, 8.6, 9.6, 10.7, 11.9],
+        9  => [6.4, 7.1, 8.0, 8.9, 9.9, 11.0, 12.3],
+        10 => [6.6, 7.4, 8.2, 9.2, 10.2, 11.4, 12.7],
+        11 => [6.8, 7.6, 8.4, 9.4, 10.5, 11.7, 13.0],
+        12 => [6.9, 7.7, 8.6, 9.6, 10.8, 12.0, 13.3],
+        13 => [7.1, 7.9, 8.8, 9.9, 11.0, 12.3, 13.7],
+        14 => [7.2, 8.1, 9.0, 10.1, 11.3, 12.6, 14.0],
+        15 => [7.4, 8.3, 9.2, 10.3, 11.5, 12.8, 14.3],
+        16 => [7.5, 8.4, 9.4, 10.5, 11.7, 13.1, 14.6],
+        17 => [7.7, 8.6, 9.6, 10.7, 12.0, 13.4, 14.9],
+        18 => [7.8, 8.8, 9.8, 10.9, 12.2, 13.7, 15.3],
+        19 => [8.0, 8.9, 10.0, 11.1, 12.5, 13.9, 15.6],
+        20 => [8.1, 9.1, 10.1, 11.3, 12.7, 14.2, 15.9],
+        21 => [8.2, 9.2, 10.3, 11.5, 12.9, 14.5, 16.2],
+        22 => [8.4, 9.4, 10.5, 11.8, 13.2, 14.7, 16.5],
+        23 => [8.5, 9.5, 10.7, 12.0, 13.4, 15.0, 16.8],
+        24 => [8.6, 9.7, 10.8, 12.2, 13.6, 15.3, 17.1],
+        25 => [8.8, 9.8, 11.0, 12.4, 13.9, 15.5, 17.5],
+        26 => [8.9, 10.0, 11.2, 12.5, 14.1, 15.8, 17.8],
+        27 => [9.0, 10.1, 11.3, 12.7, 14.3, 16.1, 18.1],
+        28 => [9.1, 10.2, 11.5, 12.9, 14.5, 16.3, 18.4],
+        29 => [9.2, 10.4, 11.7, 13.1, 14.8, 16.6, 18.7],
+        30 => [9.4, 10.5, 11.8, 13.3, 15.0, 16.9, 19.0],
+        31 => [9.5, 10.7, 12.0, 13.5, 15.2, 17.1, 19.3],
+        32 => [9.6, 10.8, 12.1, 13.7, 15.4, 17.4, 19.6],
+        33 => [9.7, 10.9, 12.3, 13.8, 15.6, 17.6, 19.9],
+        34 => [9.8, 11.0, 12.4, 14.0, 15.8, 17.8, 20.2],
+        35 => [9.9, 11.2, 12.6, 14.2, 16.0, 18.1, 20.4],
+        36 => [10.0, 11.3, 12.7, 14.3, 16.2, 18.3, 20.7],
+        37 => [10.1, 11.4, 12.9, 14.5, 16.4, 18.6, 21.0],
+        38 => [10.2, 11.5, 13.0, 14.7, 16.6, 18.8, 21.3],
+        39 => [10.3, 11.6, 13.1, 14.8, 16.8, 19.0, 21.6],
+        40 => [10.4, 11.8, 13.3, 15.0, 17.0, 19.3, 21.9],
+        41 => [10.5, 11.9, 13.4, 15.2, 17.2, 19.5, 22.1],
+        42 => [10.6, 12.0, 13.6, 15.3, 17.4, 19.7, 22.4],
+        43 => [10.7, 12.1, 13.7, 15.5, 17.6, 20.0, 22.7],
+        44 => [10.8, 12.2, 13.8, 15.7, 17.8, 20.2, 23.0],
+        45 => [10.9, 12.4, 14.0, 15.8, 18.0, 20.5, 23.3],
+        46 => [11.0, 12.5, 14.1, 16.0, 18.2, 20.7, 23.6],
+        47 => [11.1, 12.6, 14.3, 16.2, 18.4, 20.9, 23.9],
+        48 => [11.2, 12.7, 14.4, 16.3, 18.6, 21.2, 24.2],
+        49 => [11.3, 12.8, 14.5, 16.5, 18.8, 21.4, 24.5],
+        50 => [11.4, 12.9, 14.7, 16.7, 19.0, 21.7, 24.8],
+        51 => [11.5, 13.1, 14.8, 16.8, 19.2, 21.9, 25.1],
+        52 => [11.6, 13.2, 15.0, 17.0, 19.4, 22.2, 25.4],
+        53 => [11.7, 13.3, 15.1, 17.2, 19.6, 22.4, 25.7],
+        54 => [11.8, 13.4, 15.2, 17.3, 19.8, 22.7, 26.0],
+        55 => [11.9, 13.5, 15.4, 17.5, 20.0, 22.9, 26.3],
+        56 => [12.0, 13.6, 15.5, 17.7, 20.2, 23.2, 26.6],
+        57 => [12.1, 13.7, 15.6, 17.8, 20.4, 23.4, 26.9],
+        58 => [12.2, 13.8, 15.8, 18.0, 20.6, 23.7, 27.2],
+        59 => [12.3, 14.0, 15.9, 18.2, 20.8, 23.9, 27.6],
+        60 => [12.4, 14.1, 16.0, 18.3, 21.0, 24.2, 27.9],
+    ];
+
+    private const WHO_WFA_GIRLS = [
+        0  => [2.0, 2.4, 2.8, 3.2, 3.7, 4.2, 4.8],
+        1  => [2.7, 3.2, 3.6, 4.2, 4.8, 5.5, 6.2],
+        2  => [3.4, 3.9, 4.5, 5.1, 5.8, 6.6, 7.5],
+        3  => [4.0, 4.5, 5.2, 5.8, 6.6, 7.5, 8.5],
+        4  => [4.4, 5.0, 5.7, 6.4, 7.3, 8.2, 9.3],
+        5  => [4.8, 5.4, 6.1, 6.9, 7.8, 8.8, 10.0],
+        6  => [5.1, 5.7, 6.5, 7.3, 8.2, 9.3, 10.6],
+        7  => [5.3, 6.0, 6.8, 7.6, 8.6, 9.8, 11.1],
+        8  => [5.6, 6.3, 7.0, 7.9, 9.0, 10.2, 11.6],
+        9  => [5.8, 6.5, 7.3, 8.2, 9.3, 10.5, 12.0],
+        10 => [5.9, 6.7, 7.5, 8.5, 9.6, 10.9, 12.4],
+        11 => [6.1, 6.9, 7.7, 8.7, 9.9, 11.2, 12.8],
+        12 => [6.3, 7.0, 7.9, 8.9, 10.1, 11.5, 13.1],
+        13 => [6.4, 7.2, 8.1, 9.2, 10.4, 11.8, 13.5],
+        14 => [6.6, 7.4, 8.3, 9.4, 10.6, 12.1, 13.8],
+        15 => [6.7, 7.6, 8.5, 9.6, 10.9, 12.4, 14.1],
+        16 => [6.9, 7.7, 8.7, 9.8, 11.1, 12.6, 14.5],
+        17 => [7.0, 7.9, 8.9, 10.0, 11.4, 12.9, 14.8],
+        18 => [7.2, 8.1, 9.1, 10.2, 11.6, 13.2, 15.1],
+        19 => [7.3, 8.2, 9.2, 10.4, 11.8, 13.5, 15.4],
+        20 => [7.5, 8.4, 9.4, 10.6, 12.1, 13.7, 15.7],
+        21 => [7.6, 8.6, 9.6, 10.9, 12.3, 14.0, 16.0],
+        22 => [7.8, 8.7, 9.8, 11.1, 12.5, 14.3, 16.4],
+        23 => [7.9, 8.9, 10.0, 11.3, 12.8, 14.6, 16.7],
+        24 => [8.1, 9.0, 10.2, 11.5, 13.0, 14.8, 17.0],
+        25 => [8.2, 9.2, 10.3, 11.7, 13.3, 15.1, 17.3],
+        26 => [8.4, 9.4, 10.5, 11.9, 13.5, 15.4, 17.7],
+        27 => [8.5, 9.5, 10.7, 12.1, 13.7, 15.7, 18.0],
+        28 => [8.6, 9.7, 10.9, 12.3, 14.0, 16.0, 18.3],
+        29 => [8.8, 9.8, 11.1, 12.5, 14.2, 16.2, 18.7],
+        30 => [8.9, 10.0, 11.2, 12.7, 14.4, 16.5, 19.0],
+        31 => [9.0, 10.1, 11.4, 12.9, 14.7, 16.8, 19.3],
+        32 => [9.1, 10.3, 11.6, 13.1, 14.9, 17.1, 19.6],
+        33 => [9.3, 10.4, 11.7, 13.3, 15.1, 17.3, 20.0],
+        34 => [9.4, 10.5, 11.9, 13.5, 15.4, 17.6, 20.3],
+        35 => [9.5, 10.7, 12.0, 13.7, 15.6, 17.9, 20.6],
+        36 => [9.6, 10.8, 12.2, 13.9, 15.8, 18.1, 20.9],
+        37 => [9.7, 10.9, 12.4, 14.0, 16.0, 18.4, 21.3],
+        38 => [9.8, 11.1, 12.5, 14.2, 16.3, 18.7, 21.6],
+        39 => [9.9, 11.2, 12.7, 14.4, 16.5, 19.0, 22.0],
+        40 => [10.1, 11.3, 12.8, 14.6, 16.7, 19.2, 22.3],
+        41 => [10.2, 11.5, 13.0, 14.8, 17.0, 19.5, 22.7],
+        42 => [10.3, 11.6, 13.1, 15.0, 17.2, 19.8, 23.0],
+        43 => [10.4, 11.7, 13.3, 15.2, 17.4, 20.1, 23.4],
+        44 => [10.5, 11.8, 13.4, 15.3, 17.7, 20.4, 23.7],
+        45 => [10.6, 12.0, 13.6, 15.5, 17.9, 20.7, 24.1],
+        46 => [10.7, 12.1, 13.7, 15.7, 18.1, 21.0, 24.5],
+        47 => [10.8, 12.2, 13.9, 15.9, 18.4, 21.3, 24.8],
+        48 => [10.9, 12.3, 14.0, 16.1, 18.6, 21.5, 25.2],
+        49 => [11.0, 12.4, 14.2, 16.3, 18.8, 21.8, 25.5],
+        50 => [11.1, 12.6, 14.3, 16.4, 19.0, 22.1, 25.9],
+        51 => [11.2, 12.7, 14.5, 16.6, 19.3, 22.4, 26.3],
+        52 => [11.3, 12.8, 14.6, 16.8, 19.5, 22.6, 26.6],
+        53 => [11.4, 12.9, 14.8, 17.0, 19.7, 22.9, 27.0],
+        54 => [11.5, 13.0, 14.9, 17.2, 19.9, 23.2, 27.4],
+        55 => [11.6, 13.2, 15.1, 17.3, 20.2, 23.5, 27.7],
+        56 => [11.7, 13.3, 15.2, 17.5, 20.4, 23.8, 28.1],
+        57 => [11.8, 13.4, 15.3, 17.7, 20.6, 24.1, 28.5],
+        58 => [11.9, 13.5, 15.5, 17.9, 20.8, 24.3, 28.8],
+        59 => [12.0, 13.6, 15.6, 18.0, 21.0, 24.6, 29.2],
+        60 => [12.1, 13.7, 15.8, 18.2, 21.2, 24.9, 29.5],
+    ];
+
     private const WHO_HFA_GIRLS = [
         0  => [43.6, 45.4, 47.3, 49.1, 51.0, 52.9, 54.7],
         1  => [47.8, 49.8, 51.7, 53.7, 55.6, 57.6, 59.5],
@@ -150,14 +280,14 @@ class StuntingController extends Controller
         $request->validate([
             'child_id'         => 'required|exists:children,id',
             'height'           => 'required|numeric|min:30|max:150',
-            'weight'           => 'nullable|numeric|min:1|max:50',
+            'weight'           => 'required|numeric|min:1|max:50',
             'measurement_date' => 'required|date',
         ]);
 
         $child = Child::where('user_id', Auth::id())->findOrFail($request->child_id);
 
-        $ageMonths = (int) \Carbon\Carbon::parse($request->measurement_date)
-            ->diffInMonths(\Carbon\Carbon::parse($child->date_of_birth));
+        $ageMonths = (int) \Carbon\Carbon::parse($child->date_of_birth)
+            ->diffInMonths(\Carbon\Carbon::parse($request->measurement_date));
 
         $ageMonths = max(0, min(60, $ageMonths));
 
@@ -165,9 +295,11 @@ class StuntingController extends Controller
         $genderNumeric = $child->gender === 'laki-laki' ? 0 : 1;
         $predictionResult = $this->callFlaskPredict($genderNumeric, $ageMonths, $request->height);
 
-        // Calculate Z-score TB/U
-        $zScore = $this->calculateZScore($child->gender, $ageMonths, (float) $request->height);
-        $whoRef  = $this->getWhoReference($child->gender, $ageMonths);
+        // Calculate Z-score TB/U (Height-for-Age) & BB/U (Weight-for-Age)
+        $zScore     = $this->calculateZScore($child->gender, $ageMonths, (float) $request->height);
+        $zScoreWfa  = $this->calculateZScoreWfa($child->gender, $ageMonths, (float) $request->weight);
+        $whoRef     = $this->getWhoReference($child->gender, $ageMonths);
+        $whoWfaRef  = $this->getWhoWfaReference($child->gender, $ageMonths);
 
         $stuntingResult = StuntingResult::create([
             'user_id'          => Auth::id(),
@@ -179,7 +311,7 @@ class StuntingController extends Controller
             'measurement_date' => $request->measurement_date,
             'z_score'          => $zScore,
             'prediction_result' => $predictionResult,
-            'who_standard_ref' => json_encode($whoRef),
+            'who_standard_ref' => json_encode(['hfa' => $whoRef, 'wfa' => $whoWfaRef]),
             'notes'            => $request->notes,
         ]);
 
@@ -192,11 +324,24 @@ class StuntingController extends Controller
                 'child'       => ['id' => $child->id, 'name' => $child->name, 'gender' => $child->gender],
                 'age_months'  => $ageMonths,
                 'z_score'     => round($zScore, 3),
+                'z_score_wfa' => round($zScoreWfa, 3),
                 'who_ref'     => $whoRef,
+                'who_wfa_ref' => $whoWfaRef,
                 'advice'      => $advice,
                 'foods'       => $foods,
             ],
         ], 201);
+    }
+
+    public function wfaCurve(Request $request)
+    {
+        $request->validate(['gender' => 'required|in:laki-laki,perempuan']);
+        return response()->json([
+            'data' => [
+                'gender' => $request->gender,
+                'curve'  => self::getWhoWfaCurve($request->gender),
+            ],
+        ]);
     }
 
     public function history(Request $request)
@@ -230,13 +375,28 @@ class StuntingController extends Controller
 
         $advice = $this->getAdvice($result->prediction_result, (int) $result->age);
         $foods  = $this->getFoodSuggestions($result->prediction_result, (int) $result->age);
-        $whoRef = $result->who_standard_ref ? json_decode($result->who_standard_ref, true) : null;
+        $stored = $result->who_standard_ref ? json_decode($result->who_standard_ref, true) : null;
+
+        // Backward compat: lama tersimpan flat (HFA), baru tersimpan {hfa, wfa}
+        if (is_array($stored) && isset($stored['hfa'])) {
+            $whoRef    = $stored['hfa'];
+            $whoWfaRef = $stored['wfa'] ?? $this->getWhoWfaReference($result->gender, (int) $result->age);
+        } else {
+            $whoRef    = $stored ?: $this->getWhoReference($result->gender, (int) $result->age);
+            $whoWfaRef = $this->getWhoWfaReference($result->gender, (int) $result->age);
+        }
+
+        $zScoreWfa = $result->weight !== null
+            ? round($this->calculateZScoreWfa($result->gender, (int) $result->age, (float) $result->weight), 3)
+            : null;
 
         return response()->json([
             'data' => array_merge($this->transformResult($result), [
-                'advice'  => $advice,
-                'foods'   => $foods,
-                'who_ref' => $whoRef,
+                'advice'      => $advice,
+                'foods'       => $foods,
+                'who_ref'     => $whoRef,
+                'who_wfa_ref' => $whoWfaRef,
+                'z_score_wfa' => $zScoreWfa,
             ])
         ]);
     }
@@ -260,7 +420,7 @@ class StuntingController extends Controller
         }
     }
 
-    private function calculateZScore(string $gender, int $ageMonths, float $height): float
+    public static function calculateZScore(string $gender, int $ageMonths, float $height): float
     {
         $table = $gender === 'laki-laki' ? self::WHO_HFA_BOYS : self::WHO_HFA_GIRLS;
         if (!isset($table[$ageMonths])) return 0;
@@ -276,9 +436,64 @@ class StuntingController extends Controller
         }
     }
 
-    private function getWhoReference(string $gender, int $ageMonths): array
+    public static function getWhoReference(string $gender, int $ageMonths): array
     {
         $table = $gender === 'laki-laki' ? self::WHO_HFA_BOYS : self::WHO_HFA_GIRLS;
+        if (!isset($table[$ageMonths])) return [];
+
+        [$sd3n, $sd2n, $sd1n, $median, $sd1, $sd2, $sd3] = $table[$ageMonths];
+        return [
+            'SD3neg' => $sd3n,
+            'SD2neg' => $sd2n,
+            'SD1neg' => $sd1n,
+            'median' => $median,
+            'SD1'    => $sd1,
+            'SD2'    => $sd2,
+            'SD3'    => $sd3,
+        ];
+    }
+
+    public static function calculateZScoreWfa(string $gender, int $ageMonths, float $weight): float
+    {
+        $table = $gender === 'laki-laki' ? self::WHO_WFA_BOYS : self::WHO_WFA_GIRLS;
+        if (!isset($table[$ageMonths])) return 0;
+
+        [$sd3n, $sd2n, $sd1n, $median, $sd1, $sd2, $sd3] = $table[$ageMonths];
+
+        if ($weight >= $median) {
+            $sd = ($sd1 - $median);
+            return $sd > 0 ? ($weight - $median) / $sd : 0;
+        }
+        $sd = ($median - $sd1n);
+        return $sd > 0 ? ($weight - $median) / $sd : 0;
+    }
+
+    /**
+     * Kurva BB/U (Weight-for-Age) sepanjang 0–60 bulan untuk render kurva KMS Buku KIA.
+     * Mengembalikan array per usia: [age => [SD3neg, SD2neg, SD1neg, median, SD1, SD2, SD3]].
+     */
+    public static function getWhoWfaCurve(string $gender): array
+    {
+        $table = $gender === 'laki-laki' ? self::WHO_WFA_BOYS : self::WHO_WFA_GIRLS;
+        $curve = [];
+        foreach ($table as $age => [$sd3n, $sd2n, $sd1n, $median, $sd1, $sd2, $sd3]) {
+            $curve[] = [
+                'age'    => $age,
+                'SD3neg' => $sd3n,
+                'SD2neg' => $sd2n,
+                'SD1neg' => $sd1n,
+                'median' => $median,
+                'SD1'    => $sd1,
+                'SD2'    => $sd2,
+                'SD3'    => $sd3,
+            ];
+        }
+        return $curve;
+    }
+
+    public static function getWhoWfaReference(string $gender, int $ageMonths): array
+    {
+        $table = $gender === 'laki-laki' ? self::WHO_WFA_BOYS : self::WHO_WFA_GIRLS;
         if (!isset($table[$ageMonths])) return [];
 
         [$sd3n, $sd2n, $sd1n, $median, $sd1, $sd2, $sd3] = $table[$ageMonths];

@@ -38,6 +38,7 @@ class ChildController extends Controller
             'date_of_birth' => 'required|date',
             'birth_weight'  => 'nullable|numeric|min:0',
             'birth_height'  => 'nullable|numeric|min:0',
+            'asi_eksklusif' => 'nullable|boolean',
         ]);
 
         $child = Child::create([
@@ -47,6 +48,7 @@ class ChildController extends Controller
             'date_of_birth' => $request->date_of_birth,
             'birth_weight'  => $request->birth_weight,
             'birth_height'  => $request->birth_height,
+            'asi_eksklusif' => $request->boolean('asi_eksklusif'),
         ]);
 
         return response()->json(['data' => $this->transform($child)], 201);
@@ -79,9 +81,10 @@ class ChildController extends Controller
             'date_of_birth' => 'sometimes|date',
             'birth_weight'  => 'nullable|numeric|min:0',
             'birth_height'  => 'nullable|numeric|min:0',
+            'asi_eksklusif' => 'nullable|boolean',
         ]);
 
-        $child->update($request->only(['name', 'gender', 'date_of_birth', 'birth_weight', 'birth_height']));
+        $child->update($request->only(['name', 'gender', 'date_of_birth', 'birth_weight', 'birth_height', 'asi_eksklusif']));
 
         return response()->json(['data' => $this->transform($child->fresh(['parent:id,name,email']))]);
     }
@@ -174,6 +177,7 @@ class ChildController extends Controller
             'date_of_birth'  => $c->date_of_birth?->toDateString(),
             'birth_weight'   => $c->birth_weight,
             'birth_height'   => $c->birth_height,
+            'asi_eksklusif'  => $c->asi_eksklusif,
             'age_in_months'  => $c->age_in_months,
             'photo'          => $c->photo,
             'parent'         => $c->parent ? [

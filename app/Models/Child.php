@@ -17,6 +17,7 @@ class Child extends Model
         'date_of_birth',
         'birth_weight',
         'birth_height',
+        'asi_eksklusif',
         'photo',
     ];
 
@@ -33,6 +34,7 @@ class Child extends Model
             'date_of_birth' => 'date',
             'birth_weight'  => 'decimal:2',
             'birth_height'  => 'decimal:2',
+            'asi_eksklusif' => 'boolean',
         ];
     }
 
@@ -49,6 +51,11 @@ class Child extends Model
     public function consultations()
     {
         return $this->hasMany(Consultation::class);
+    }
+
+    public function vaccinations()
+    {
+        return $this->hasMany(ChildVaccination::class);
     }
 
     /**

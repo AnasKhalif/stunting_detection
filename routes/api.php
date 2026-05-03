@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\StuntingController;
 use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Api\VaccinationController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('auth')->group(function () {
@@ -59,9 +60,16 @@ Route::middleware('auth:sanctum')->group(function () {
     // Children
     Route::apiResource('children', ChildController::class);
 
+    // Imunisasi (Buku KIA / Permenkes No. 2/2020)
+    Route::get('vaccinations/schedule', [VaccinationController::class, 'schedule']);
+    Route::get('children/{child}/vaccinations', [VaccinationController::class, 'indexForChild']);
+    Route::post('children/{child}/vaccinations', [VaccinationController::class, 'record']);
+    Route::delete('children/{child}/vaccinations/{record}', [VaccinationController::class, 'destroy']);
+
     // Stunting Detection
     Route::post('stunting/detect', [StuntingController::class, 'detect']);
     Route::get('stunting/history', [StuntingController::class, 'history']);
+    Route::get('stunting/wfa-curve', [StuntingController::class, 'wfaCurve']);
     Route::get('stunting/history/{id}', [StuntingController::class, 'show']);
 
     // Food Recommendations
